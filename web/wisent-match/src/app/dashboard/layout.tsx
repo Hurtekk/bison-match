@@ -39,7 +39,7 @@ export default function DashboardLayout({
             </div>
             <button
               onClick={() => setSidebarOpen(!sidebarOpen)}
-              className="p-2 rounded-lg hover:bg-gray-100"
+              className="p-2 rounded-lg hover:bg-gray-100 text-gray-900"
             >
               <svg
                 className="w-6 h-6"
