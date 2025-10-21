@@ -3,7 +3,7 @@
 
 import { useState, useEffect } from "react";
 import Image from "next/image";
-import { initialBisons, type Bison } from "@/app/lib/data";
+import { type Bison } from "@/app/lib/data";
 
 type Flock = {
   name: string;

@@ -150,7 +150,7 @@ export default function LoginPage() {
               Forgot password?
             </a>
             <p className="text-sm text-gray-600">
-              Don't have an account?{" "}
+              Don&apos;t have an account?{" "}
               <a
                 href="#"
                 className="text-green-600 hover:text-green-700 font-medium"
