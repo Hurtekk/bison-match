@@ -26,7 +26,7 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen from-green-900 via-green-800 to-emerald-900 flex items-center justify-center p-4">
+    <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
       <div className="w-full max-w-md">
         {/* Logo & Title */}
         <div className="text-center mb-8">
@@ -163,7 +163,7 @@ export default function LoginPage() {
 
         {/* Demo Credentials */}
         <div className="mt-6 text-center">
-          <div className="inline-block bg-white/10 backdrop-blur-sm rounded-lg px-6 py-3 text-white text-sm">
+          <div className="inline-block bg-gray-600 backdrop-blur-sm rounded-lg px-6 py-3 text-white text-sm">
             <p className="font-semibold mb-1">Demo Credentials:</p>
             <p>Username: <span className="font-mono">admin</span></p>
             <p>Password: <span className="font-mono">1234</span></p>
