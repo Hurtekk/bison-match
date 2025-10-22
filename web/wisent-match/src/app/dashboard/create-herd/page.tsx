@@ -40,43 +40,157 @@ export default function CreateHerdPage() {
     setShowPreview(false);
   };
 
-  const generatePreview = () => {
-    // Get available bison (not in quarantine, not in flock)
-    const available = bisons.filter(
-      (b) => !b.quarantine && !b.flock
-    );
+const generatePreview = () => {
+  const available = bisons.filter((b) => !b.quarantine && !b.flock);
 
-    // Score each bison based on matching traits
-    const scored = available.map((bison) => {
-      let score = 0;
+  // Filter by selected traits
+  let candidates = available.filter((bison) => {
+    if (
+      traits.regions.length > 0 &&
+      !traits.regions.includes(bison.region)
+    ) {
+      return false;
+    }
 
-      // Region match (30 points)
-      if (traits.regions.length === 0 || traits.regions.includes(bison.region)) {
-        score += 30;
-      }
+    if (
+      traits.behaviors.length > 0 &&
+      !traits.behaviors.includes(bison.behavior)
+    ) {
+      return false;
+    }
 
-      // Behavior match (20 points)
-      if (traits.behaviors.length === 0 || traits.behaviors.includes(bison.behavior)) {
-        score += 20;
-      }
+    if (
+      traits.healths.length > 0 &&
+      !traits.healths.includes(bison.healthCondition)
+    ) {
+      return false;
+    }
 
-      // Health match (20 points)
-      if (traits.healths.length === 0 || traits.healths.includes(bison.healthCondition)) {
-        score += 20;
-      }
+    return true;
+  });
 
-      return { bison, score };
-    });
-
-    // Sort by score and take top 6
-    const selected = scored
-      .sort((a, b) => b.score - a.score)
-      .slice(0, 6)
-      .map((s) => s.bison);
-
-    setPreview(selected);
+  if (candidates.length === 0) {
+    setPreview([]);
     setShowPreview(true);
+    return;
+  }
+
+  // Define behavior groups
+  const behaviorGroups = {
+    peaceful: ["calm", "passive", "careful", "cautious", "watchful"],
+    friendly: ["playful", "social", "curious", "energetic"],
+    aggressive: [
+      "aggressive",
+      "very aggressive",
+      "territorial",
+      "dominant",
+    ],
+    neutral: ["alert", "lazy", "loner"],
   };
+
+  // Check which group a behavior belongs to
+  const getGroup = (behavior: string): string => {
+    for (const [group, behaviors] of Object.entries(behaviorGroups)) {
+      if (behaviors.includes(behavior)) return group;
+    }
+    return "neutral";
+  };
+
+  // Check if two behaviors are incompatible
+  const isIncompatible = (b1: string, b2: string) => {
+    const g1 = getGroup(b1);
+    const g2 = getGroup(b2);
+
+    // Aggressive incompatible with peaceful and friendly
+    if (g1 === "aggressive" && (g2 === "peaceful" || g2 === "friendly"))
+      return true;
+    if (g2 === "aggressive" && (g1 === "peaceful" || g1 === "friendly"))
+      return true;
+
+    // Loner doesn't work well with social/playful
+    if (
+      b1 === "loner" &&
+      (b2 === "social" || b2 === "playful" || b2 === "energetic")
+    )
+      return true;
+    if (
+      b2 === "loner" &&
+      (b1 === "social" || b1 === "playful" || b1 === "energetic")
+    )
+      return true;
+
+    return false;
+  };
+
+  // Group by behavior
+  const byBehavior: Record<string, Bison[]> = {};
+  candidates.forEach((bison) => {
+    if (!byBehavior[bison.behavior]) {
+      byBehavior[bison.behavior] = [];
+    }
+    byBehavior[bison.behavior].push(bison);
+  });
+
+  let selected: Bison[] = [];
+
+  // Build from largest compatible group
+  const behaviorCounts = Object.entries(byBehavior)
+    .map(([behavior, bison]) => ({ behavior, count: bison.length }))
+    .sort((a, b) => b.count - a.count);
+
+  if (behaviorCounts.length > 0) {
+    const primary = behaviorCounts[0].behavior;
+    selected.push(...byBehavior[primary]);
+
+    // Add compatible behaviors
+    for (const { behavior } of behaviorCounts.slice(1)) {
+      if (!isIncompatible(primary, behavior)) {
+        selected.push(...byBehavior[behavior]);
+      }
+    }
+  }
+
+  if (selected.length === 0) {
+    selected = candidates;
+  }
+
+  // Score each bison
+  const scored = selected.map((bison) => {
+    let score = 0;
+
+    // Health scoring
+    if (bison.healthCondition === "healthy") score += 30;
+    else if (bison.healthCondition === "minor issues") score += 15;
+
+    // Age scoring
+    if (bison.age >= 3 && bison.age <= 12) score += 20;
+    else if (bison.age >= 2 && bison.age <= 15) score += 10;
+
+    // Behavior scoring (prefer friendly/peaceful)
+    const group = getGroup(bison.behavior);
+    if (group === "friendly") score += 15;
+    else if (group === "peaceful") score += 12;
+    else if (group === "neutral") score += 8;
+    else if (group === "aggressive") score += 5;
+
+    // Specific behavior bonuses
+    if (bison.behavior === "social") score += 5;
+    if (bison.behavior === "calm") score += 3;
+
+    score += Math.random() * 3;
+
+    return { bison, score };
+  });
+
+  // Select exactly 5 best bison
+  const finalSelection = scored
+    .sort((a, b) => b.score - a.score)
+    .slice(0, 5)
+    .map((s) => s.bison);
+
+  setPreview(finalSelection);
+  setShowPreview(true);
+};
 
   const createHerd = () => {
     if (!herdName.trim()) {
@@ -114,7 +228,7 @@ export default function CreateHerdPage() {
             👥 Create Herd
           </h1>
           <p className="text-gray-600">
-            Define traits to automatically select matching bison
+            Define traits to automatically select matching wisent
           </p>
         </div>
 

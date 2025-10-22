@@ -1,7 +1,13 @@
 // lib/AdvertContext.tsx
 "use client";
 
-import { createContext, useContext, useState, useEffect, ReactNode } from "react";
+import {
+  createContext,
+  useContext,
+  useState,
+  useEffect,
+  ReactNode,
+} from "react";
 import { initialAdverts, type Advert } from "./data";
 
 type AdvertContextType = {
@@ -10,40 +16,63 @@ type AdvertContextType = {
   deleteAdvert: (id: string) => void;
 };
 
-const AdvertContext = createContext<AdvertContextType | undefined>(undefined);
+const AdvertContext = createContext<AdvertContextType | undefined>(
+  undefined
+);
 
 export function AdvertProvider({ children }: { children: ReactNode }) {
   const [adverts, setAdverts] = useState<Advert[]>([]);
-  const [loaded, setLoaded] = useState(false);
+  const [isInitialized, setIsInitialized] = useState(false);
 
   useEffect(() => {
+    console.log("🔄 Loading adverts from localStorage...");
     const saved = localStorage.getItem("wisentmatch_adverts");
     if (saved) {
-      setAdverts(JSON.parse(saved));
+      try {
+        const parsed = JSON.parse(saved);
+        console.log("✅ Loaded adverts:", parsed);
+        setAdverts(parsed);
+      } catch (error) {
+        console.error("❌ Failed to parse adverts:", error);
+        setAdverts(initialAdverts);
+      }
     } else {
+      console.log("📝 No saved adverts, using initial");
       setAdverts(initialAdverts);
     }
-    setLoaded(true);
+    setIsInitialized(true);
   }, []);
 
   useEffect(() => {
-    if (loaded) {
+    if (isInitialized) {
+      console.log("💾 Saving adverts to localStorage:", adverts);
       localStorage.setItem("wisentmatch_adverts", JSON.stringify(adverts));
     }
-  }, [adverts, loaded]);
+  }, [adverts, isInitialized]);
 
   const addAdvert = (advertData: Omit<Advert, "id" | "postedAt">) => {
+    console.log("➕ Adding new advert:", advertData);
     const newAdvert: Advert = {
       ...advertData,
-      id: Date.now().toString(),
+      id: `adv${Date.now()}`,
       postedAt: new Date().toISOString().split("T")[0],
     };
-    setAdverts((prev) => [newAdvert, ...prev]);
+    console.log("📋 New advert created:", newAdvert);
+    setAdverts((prev) => {
+      const updated = [newAdvert, ...prev];
+      console.log("📊 Updated adverts list:", updated);
+      return updated;
+    });
   };
 
   const deleteAdvert = (id: string) => {
+    console.log("🗑️ Deleting advert:", id);
     setAdverts((prev) => prev.filter((a) => a.id !== id));
   };
+
+  if (!isInitialized) {
+    return null;
+  }
 
   return (
     <AdvertContext.Provider value={{ adverts, addAdvert, deleteAdvert }}>
