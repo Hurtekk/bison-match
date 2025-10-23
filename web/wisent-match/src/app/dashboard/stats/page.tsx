@@ -9,19 +9,26 @@ export default function StatsPage() {
 
   // Basic stats
   const totalBisons = bisons.length;
-  const healthyCount = bisons.filter((b) => b.healthCondition === "healthy").length;
-  const injuredCount = bisons.filter((b) => b.healthCondition === "injured").length;
+  const healthyCount = bisons.filter(
+    (b) => b.healthCondition === "healthy"
+  ).length;
+  const injuredCount = bisons.filter(
+    (b) => b.healthCondition === "injured"
+  ).length;
   const quarantinedCount = bisons.filter((b) => b.quarantine).length;
-  const avgAge = totalBisons > 0
-    ? (bisons.reduce((sum, b) => sum + b.age, 0) / totalBisons).toFixed(1)
-    : "0";
+  const avgAge =
+    totalBisons > 0
+      ? (bisons.reduce((sum, b) => sum + b.age, 0) / totalBisons).toFixed(1)
+      : "0";
 
   // Gender stats
   const maleCount = bisons.filter((b) => b.sex === "male").length;
   const femaleCount = bisons.filter((b) => b.sex === "female").length;
 
   // Fur stats
-  const normalFurCount = bisons.filter((b) => b.furLength === "normal").length;
+  const normalFurCount = bisons.filter(
+    (b) => b.furLength === "normal"
+  ).length;
   const thickFurCount = bisons.filter((b) => b.furLength === "thick").length;
 
   // Region stats
@@ -56,7 +63,8 @@ export default function StatsPage() {
 
   const ageDistribution = ageGroups.map((group) => ({
     label: group.label,
-    count: bisons.filter((b) => b.age >= group.min && b.age <= group.max).length,
+    count: bisons.filter((b) => b.age >= group.min && b.age <= group.max)
+      .length,
   }));
 
   const maxAgeCount = Math.max(...ageDistribution.map((a) => a.count), 1);
@@ -68,7 +76,9 @@ export default function StatsPage() {
           <h1 className="text-3xl font-bold text-gray-900 mb-2">
             📊 Statistics
           </h1>
-          <p className="text-gray-600">Overview of all wisents in the database</p>
+          <p className="text-gray-600">
+            Overview of all wisents in the database
+          </p>
         </div>
 
         {/* Overview Cards */}
@@ -78,7 +88,9 @@ export default function StatsPage() {
             <div className="text-3xl font-bold text-gray-900 mb-1">
               {totalBisons}
             </div>
-            <div className="text-sm text-gray-600 font-medium">Total Wisents</div>
+            <div className="text-sm text-gray-600 font-medium">
+              Total Wisents
+            </div>
           </div>
 
           <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
@@ -102,7 +114,9 @@ export default function StatsPage() {
             <div className="text-3xl font-bold text-orange-600 mb-1">
               {quarantinedCount}
             </div>
-            <div className="text-sm text-gray-600 font-medium">Quarantined</div>
+            <div className="text-sm text-gray-600 font-medium">
+              Quarantined
+            </div>
           </div>
         </div>
 
@@ -130,7 +144,9 @@ export default function StatsPage() {
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
                   <span className="text-2xl">♂️</span>
-                  <span className="text-sm font-medium text-gray-700">Male</span>
+                  <span className="text-sm font-medium text-gray-700">
+                    Male
+                  </span>
                 </div>
                 <span className="text-lg font-bold text-gray-900">
                   {maleCount}
@@ -140,7 +156,9 @@ export default function StatsPage() {
                 <div
                   className="bg-blue-500 h-3 rounded-full transition-all"
                   style={{
-                    width: `${totalBisons > 0 ? (maleCount / totalBisons) * 100 : 0}%`,
+                    width: `${
+                      totalBisons > 0 ? (maleCount / totalBisons) * 100 : 0
+                    }%`,
                   }}
                 ></div>
               </div>
@@ -148,7 +166,9 @@ export default function StatsPage() {
               <div className="flex items-center justify-between pt-2">
                 <div className="flex items-center gap-2">
                   <span className="text-2xl">♀️</span>
-                  <span className="text-sm font-medium text-gray-700">Female</span>
+                  <span className="text-sm font-medium text-gray-700">
+                    Female
+                  </span>
                 </div>
                 <span className="text-lg font-bold text-gray-900">
                   {femaleCount}
@@ -158,7 +178,9 @@ export default function StatsPage() {
                 <div
                   className="bg-pink-500 h-3 rounded-full transition-all"
                   style={{
-                    width: `${totalBisons > 0 ? (femaleCount / totalBisons) * 100 : 0}%`,
+                    width: `${
+                      totalBisons > 0 ? (femaleCount / totalBisons) * 100 : 0
+                    }%`,
                   }}
                 ></div>
               </div>
@@ -174,7 +196,9 @@ export default function StatsPage() {
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
                   <span className="text-2xl">🧥</span>
-                  <span className="text-sm font-medium text-gray-700">Normal</span>
+                  <span className="text-sm font-medium text-gray-700">
+                    Normal
+                  </span>
                 </div>
                 <span className="text-lg font-bold text-gray-900">
                   {normalFurCount}
@@ -185,7 +209,9 @@ export default function StatsPage() {
                   className="bg-yellow-500 h-3 rounded-full transition-all"
                   style={{
                     width: `${
-                      totalBisons > 0 ? (normalFurCount / totalBisons) * 100 : 0
+                      totalBisons > 0
+                        ? (normalFurCount / totalBisons) * 100
+                        : 0
                     }%`,
                   }}
                 ></div>
@@ -194,7 +220,9 @@ export default function StatsPage() {
               <div className="flex items-center justify-between pt-2">
                 <div className="flex items-center gap-2">
                   <span className="text-2xl">🧥🧥</span>
-                  <span className="text-sm font-medium text-gray-700">Thick</span>
+                  <span className="text-sm font-medium text-gray-700">
+                    Thick
+                  </span>
                 </div>
                 <span className="text-lg font-bold text-gray-900">
                   {thickFurCount}
@@ -253,7 +281,7 @@ export default function StatsPage() {
           {/* Region Stats */}
           <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
             <h2 className="text-lg font-bold text-gray-900 mb-6">
-              Distribution by Region
+              Distribution by Breeding Center
             </h2>
             <div className="space-y-4">
               {regionStats.map((region) => (
@@ -285,7 +313,9 @@ export default function StatsPage() {
               Distribution by Behavior
             </h2>
             {behaviorStats.length === 0 ? (
-              <p className="text-gray-500 text-center py-8">No data available</p>
+              <p className="text-gray-500 text-center py-8">
+                No data available
+              </p>
             ) : (
               <div className="space-y-4">
                 {behaviorStats.map((behavior) => (
@@ -302,7 +332,9 @@ export default function StatsPage() {
                       <div
                         className="bg-blue-500 h-3 rounded-full transition-all"
                         style={{
-                          width: `${(behavior.count / maxBehaviorCount) * 100}%`,
+                          width: `${
+                            (behavior.count / maxBehaviorCount) * 100
+                          }%`,
                         }}
                       ></div>
                     </div>

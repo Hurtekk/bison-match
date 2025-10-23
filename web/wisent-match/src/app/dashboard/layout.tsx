@@ -24,7 +24,7 @@ export default function DashboardLayout({
   ];
 
   const handleLogout = () => {
-    router.push("/login");
+    router.push("/");
   };
 
   return (

@@ -204,7 +204,7 @@ export default function DashboardPage() {
                 {filteredBisons.map((bison) => (
                   <Link
                     key={bison.id}
-                    href={`/dashboard/bison/${bison.id}`}
+                    href={`#`}
                     className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden hover:shadow-md transition-shadow group"
                   >
                     <div className="relative h-48 bg-gray-100">
