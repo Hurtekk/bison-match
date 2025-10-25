@@ -21,6 +21,7 @@ export default function DashboardLayout({
     { name: "Add Bison", href: "/dashboard/add-wisent", icon: "➕" },
     { name: "Statistics", href: "/dashboard/stats", icon: "📊" },
     { name: "Marketplace", href: "/dashboard/marketplace", icon: "📢" },
+    { name: "Breeding", href: "/dashboard/breeding", icon: "❤️" },
   ];
 
   const handleLogout = () => {
