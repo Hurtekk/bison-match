@@ -79,111 +79,91 @@ export default function BreedingPage() {
 
   // Main breeding calculation
 const calculateOffspring = (): GeneticOutcome[] => {
-    if (!parent1 || !parent2) return [];
+  if (!parent1 || !parent2) return [];
 
-    // Normalize genotype (remove invalid chars, pad if missing)
-    const normalize = (g: string) =>
-      typeof g === "string"
-        ? g.replace(/[^A-Za-z]/g, "").padEnd(8, "f").substring(0, 8)
-        : "ffaaSsHh";
+  // Ensure opposite sexes
+  if (parent1.sex === parent2.sex) {
+    alert("Please select a male and a female bison.");
+    return [];
+  }
 
-    const g1 = normalize(parent1.genotype);
-    const g2 = normalize(parent2.genotype);
+const normalize = (g?: string) => {
+  if (typeof g !== "string") return "ffaaSsHh"; // fallback default genotype
+  return g.replace(/[^A-Za-z]/g, "").padEnd(8, "f").substring(0, 8);
+};
 
-    const parse = (genotype: string) => ({
-      F: genotype.substring(0, 2),
-      A: genotype.substring(2, 4),
-      S: genotype.substring(4, 6),
-      H: genotype.substring(6, 8),
-    });
+  const g1 = normalize(parent1.genotype);
+  const g2 = normalize(parent2.genotype);
 
-    const genes1 = parse(g1);
-    const genes2 = parse(g2);
+  const parse = (genotype: string) => ({
+    F: genotype.substring(0, 2),
+    A: genotype.substring(2, 4),
+    S: genotype.substring(4, 6),
+    H: genotype.substring(6, 8),
+  });
 
-    // 🔬 Improved combination generator (case-insensitive and order-safe)
-    const getAllCombos = (gene1: string, gene2: string): string[] => {
-      const combos = [
-        gene1[0] + gene2[0],
-        gene1[0] + gene2[1],
-        gene1[1] + gene2[0],
-        gene1[1] + gene2[1],
-      ];
+  const genes1 = parse(g1);
+  const genes2 = parse(g2);
 
-      return combos.map(combo => {
-        const [a, b] = combo.split("");
-        const hasDominant =
-          a === a.toUpperCase() || b === b.toUpperCase();
-        // Return heterozygous (Ff) if mixed, homozygous dominant (FF), or recessive (ff)
-        if (a.toUpperCase() !== b.toUpperCase()) {
-          return hasDominant
-            ? a.toUpperCase() + b.toLowerCase()
-            : a.toLowerCase() + b.toLowerCase();
-        }
-        return a === a.toUpperCase()
-          ? a.toUpperCase() + a.toUpperCase()
-          : a.toLowerCase() + a.toLowerCase();
-      });
-    };
-
-    // Generate all gene combos
-    const furCombos = getAllCombos(genes1.F, genes2.F);
-    const aggCombos = getAllCombos(genes1.A, genes2.A);
-    const socCombos = getAllCombos(genes1.S, genes2.S);
-    const healthCombos = getAllCombos(genes1.H, genes2.H);
-
-    // 🧠 Debug logger – zobacz w konsoli devtools
-    console.log("🧬 Combo test:", {
-      P1: g1,
-      P2: g2,
-      furCombos,
-      aggCombos,
-      socCombos,
-      healthCombos,
-    });
-
-    const results: Map<string, GeneticOutcome> = new Map();
-
-    const probabilityPerFur = 1 / furCombos.length;
-    const probabilityPerAgg = 1 / aggCombos.length;
-    const probabilityPerSoc = 1 / socCombos.length;
-    const probabilityPerHealth = 1 / healthCombos.length;
-
-    for (const F of furCombos)
-      for (const A of aggCombos)
-        for (const S of socCombos)
-          for (const H of healthCombos) {
-            const genotype = F + A + S + H;
-            const probability =
-              probabilityPerFur *
-              probabilityPerAgg *
-              probabilityPerSoc *
-              probabilityPerHealth;
-            const traits = predictTraits(F, A, S, H);
-
-            if (results.has(genotype)) {
-              results.get(genotype)!.probability += probability;
-            } else {
-              results.set(genotype, { genotype, probability, traits });
-            }
-          }
-
-    const sorted = Array.from(results.values()).sort(
-      (a, b) => b.probability - a.probability
-    );
-
-    // 🧩 Safety fallback – shouldn’t trigger now
-    if (sorted.length === 0) {
-      return [
-        {
-          genotype: "FFAA SS HH",
-          probability: 1,
-          traits: predictTraits("FF", "AA", "SS", "HH"),
-        },
-      ];
+  // helper to pick alleles with weighted randomness
+  const getRandomAllele = (gene: string): string => {
+    const [a1, a2] = gene.split("");
+    // slightly higher chance for dominant alleles if heterozygous
+    if (a1 !== a2 && Math.random() < 0.6) {
+      return a1 === a1.toUpperCase() ? a1 : a2;
     }
-
-    return sorted;
+    return Math.random() < 0.5 ? a1 : a2;
   };
+
+  // Introduce slight mutation (1–5%)
+  const maybeMutate = (allele: string): string => {
+    if (Math.random() < 0.03) {
+      return allele === allele.toUpperCase()
+        ? allele.toLowerCase()
+        : allele.toUpperCase();
+    }
+    return allele;
+  };
+
+  const results: Map<string, GeneticOutcome> = new Map();
+
+  // simulate N offspring (statistical variety)
+  const NUM_SIMULATIONS = 1000;
+
+  for (let i = 0; i < NUM_SIMULATIONS; i++) {
+    const F =
+      maybeMutate(getRandomAllele(genes1.F)) +
+      maybeMutate(getRandomAllele(genes2.F));
+    const A =
+      maybeMutate(getRandomAllele(genes1.A)) +
+      maybeMutate(getRandomAllele(genes2.A));
+    const S =
+      maybeMutate(getRandomAllele(genes1.S)) +
+      maybeMutate(getRandomAllele(genes2.S));
+    const H =
+      maybeMutate(getRandomAllele(genes1.H)) +
+      maybeMutate(getRandomAllele(genes2.H));
+
+    // sort each pair (dominant first)
+    const sortGene = (g: string) =>
+      g.split("").sort((x, y) => (x === x.toUpperCase() ? -1 : 1)).join("");
+
+    const g = sortGene(F) + sortGene(A) + sortGene(S) + sortGene(H);
+
+    if (!results.has(g)) {
+      results.set(g, {
+        genotype: g,
+        probability: 0,
+        traits: predictTraits(sortGene(F), sortGene(A), sortGene(S), sortGene(H)),
+      });
+    }
+    results.get(g)!.probability += 1 / NUM_SIMULATIONS;
+  }
+
+  return Array.from(results.values()).sort(
+    (a, b) => b.probability - a.probability
+  );
+};
 
   // Available bisons for breeding
   const availableBisons = bisons.filter(
