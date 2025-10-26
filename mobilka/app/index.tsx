@@ -1,10 +1,8 @@
-import { BlurView } from "expo-blur";
 import { useState } from "react";
 import {
   Alert,
   FlatList,
   Image,
-  Platform,
   ScrollView,
   StyleSheet,
   Text,
@@ -26,17 +24,6 @@ type Bison = {
   image: any;
   flock?: string;
   quarantine?: boolean;
-};
-
-type Advert = {
-  id: string;
-  type: "offer" | "request";
-  title: string;
-  description: string;
-  breeder: string;
-  region?: string;
-  behavior?: string;
-  postedAt: string;
 };
 
 // --- Data ---
@@ -76,6 +63,7 @@ const behaviors = [
 
 const healths = ["healthy", "injured"];
 
+// --- Images ---
 const images = [
   require("./assets/1.jpg"),
   require("./assets/2.jpg"),
@@ -109,338 +97,59 @@ const images = [
   require("./assets/30.jpg"),
 ];
 
+// --- Create 30 Bisons ---
 const initialBisons: Bison[] = [
-  {
-    id: "1",
-    name: "Pola",
-    age: 14,
-    sex: "female",
-    behavior: "passive",
-    region: "Wielkopolska",
-    furLength: "normal",
-    healthCondition: "healthy",
-    image: images[0],
-  },
-  {
-    id: "2",
-    name: "Polina",
-    age: 8,
-    sex: "female",
-    behavior: "passive",
-    region: "Podlasie",
-    furLength: "thick",
-    healthCondition: "healthy",
-    image: images[1],
-  },
-  {
-    id: "3",
-    name: "Polek",
-    age: 12,
-    sex: "male",
-    behavior: "territorial",
-    region: "Podlasie",
-    furLength: "normal",
-    healthCondition: "healthy",
-    image: images[2],
-  },
-  {
-    id: "4",
-    name: "Polikarp",
-    age: 15,
-    sex: "male",
-    behavior: "passive",
-    region: "Podlasie",
-    furLength: "thick",
-    healthCondition: "healthy",
-    image: images[3],
-  },
-  {
-    id: "5",
-    name: "Pomian",
-    age: 13,
-    sex: "male",
-    behavior: "aggressive",
-    region: "Western Pomerania",
-    furLength: "thick",
-    healthCondition: "healthy",
-    image: images[4],
-  },
-  {
-    id: "6",
-    name: "Pompejusz",
-    age: 22,
-    sex: "male",
-    behavior: "aggressive",
-    region: "Borecka Forest",
-    furLength: "normal",
-    healthCondition: "healthy",
-    image: images[5],
-  },
-  {
-    id: "7",
-    name: "Polańka",
-    age: 16,
-    sex: "female",
-    behavior: "passive",
-    region: "Bieszczady",
-    furLength: "thick",
-    healthCondition: "healthy",
-    image: images[6],
-  },
-  {
-    id: "8",
-    name: "Polidora",
-    age: 22,
-    sex: "female",
-    behavior: "passive",
-    region: "Near Gdańsk",
-    furLength: "thick",
-    healthCondition: "healthy",
-    image: images[7],
-  },
-  {
-    id: "9",
-    name: "Porfir",
-    age: 8,
-    sex: "male",
-    behavior: "territorial",
-    region: "Bieszczady",
-    furLength: "normal",
-    healthCondition: "healthy",
-    image: images[8],
-  },
-  {
-    id: "10",
-    name: "Polesia",
-    age: 15,
-    sex: "female",
-    behavior: "very aggressive",
-    region: "Białowieża Forest",
-    furLength: "normal",
-    healthCondition: "healthy",
-    image: images[9],
-  },
-  {
-    id: "11",
-    name: "Polonia",
-    age: 7,
-    sex: "female",
-    behavior: "passive",
-    region: "Bieszczady",
-    furLength: "thick",
-    healthCondition: "healthy",
-    image: images[10],
-  },
-  {
-    id: "12",
-    name: "Pompeja",
-    age: 14,
-    sex: "female",
-    behavior: "territorial",
-    region: "Białowieża Forest",
-    furLength: "thick",
-    healthCondition: "healthy",
-    image: images[11],
-  },
-  {
-    id: "13",
-    name: "Polan",
-    age: 10,
-    sex: "male",
-    behavior: "passive",
-    region: "Lower Silesia",
-    furLength: "normal",
-    healthCondition: "healthy",
-    image: images[12],
-  },
-  {
-    id: "14",
-    name: "Polinka",
-    age: 24,
-    sex: "female",
-    behavior: "aggressive",
-    region: "Bieszczady",
-    furLength: "thick",
-    healthCondition: "healthy",
-    image: images[13],
-  },
-  {
-    id: "15",
-    name: "Polykarp",
-    age: 15,
-    sex: "male",
-    behavior: "territorial",
-    region: "Near Bałtów",
-    furLength: "normal",
-    healthCondition: "healthy",
-    image: images[14],
-  },
-  {
-    id: "16",
-    name: "Polaś",
-    age: 13,
-    sex: "male",
-    behavior: "calm",
-    region: "Białowieża Forest",
-    furLength: "normal",
-    healthCondition: "healthy",
-    image: images[15],
-  },
-  {
-    id: "17",
-    name: "Polana",
-    age: 10,
-    sex: "female",
-    behavior: "alert",
-    region: "Bieszczady",
-    furLength: "normal",
-    healthCondition: "healthy",
-    image: images[16],
-  },
-  {
-    id: "18",
-    name: "Poncjusz",
-    age: 15,
-    sex: "male",
-    behavior: "active",
-    region: "Knyszyn Forest",
-    furLength: "normal",
-    healthCondition: "healthy",
-    image: images[17],
-  },
-  {
-    id: "19",
-    name: "Polidora",
-    age: 9,
-    sex: "female",
-    behavior: "very calm",
-    region: "Augustów Forest",
-    furLength: "normal",
-    healthCondition: "healthy",
-    image: images[18],
-  },
-  {
-    id: "20",
-    name: "Polmir",
-    age: 11,
-    sex: "male",
-    behavior: "curious",
-    region: "Western Pomeranian Forests",
-    furLength: "thick",
-    healthCondition: "healthy",
-    image: images[19],
-  },
-  {
-    id: "21",
-    name: "Polenus",
-    age: 7,
-    sex: "male",
-    behavior: "lazy",
-    region: "Borecka Forest",
-    furLength: "thick",
-    healthCondition: "healthy",
-    image: images[20],
-  },
-  {
-    id: "22",
-    name: "Polidar",
-    age: 12,
-    sex: "male",
-    behavior: "dominant",
-    region: "Białowieża Forest",
-    furLength: "thick",
-    healthCondition: "healthy",
-    image: images[21],
-  },
-  {
-    id: "23",
-    name: "Polena",
-    age: 9,
-    sex: "female",
-    behavior: "calm",
-    region: "Bieszczady",
-    furLength: "normal",
-    healthCondition: "healthy",
-    image: images[22],
-  },
-  {
-    id: "24",
-    name: "Polonia",
-    age: 14,
-    sex: "female",
-    behavior: "cautious",
-    region: "Augustów Forest",
-    furLength: "thick",
-    healthCondition: "healthy",
-    image: images[23],
-  },
-  {
-    id: "25",
-    name: "Polybiusz",
-    age: 10,
-    sex: "male",
-    behavior: "energetic",
-    region: "Knyszyn Forest",
-    furLength: "thick",
-    healthCondition: "healthy",
-    image: images[24],
-  },
-  {
-    id: "26",
-    name: "Poloniusz",
-    age: 14,
-    sex: "male",
-    behavior: "likes open spaces",
-    region: "Borecka Forest",
-    furLength: "normal",
-    healthCondition: "healthy",
-    image: images[25],
-  },
-  {
-    id: "27",
-    name: "Polidor",
-    age: 7,
-    sex: "male",
-    behavior: "watchful",
-    region: "Near Bieszczady",
-    furLength: "thick",
-    healthCondition: "healthy",
-    image: images[26],
-  },
-  {
-    id: "28",
-    name: "Poletta",
-    age: 13,
-    sex: "female",
-    behavior: "social",
-    region: "Western Pomeranian Forests",
-    furLength: "normal",
-    healthCondition: "healthy",
-    image: images[27],
-  },
-  {
-    id: "29",
-    name: "Poliana",
-    age: 6,
-    sex: "female",
-    behavior: "likes wetlands",
-    region: "Białowieża Forest",
-    furLength: "normal",
-    healthCondition: "healthy",
-    image: images[28],
-  },
-  {
-    id: "30",
-    name: "Polonus",
-    age: 11,
-    sex: "male",
-    behavior: "loner",
-    region: "Augustów Forest",
-    furLength: "thick",
-    healthCondition: "healthy",
-    image: images[29],
-  },
+  { id: "1", name: "Pola", age: 14, sex: "female", behavior: "passive", region: "Wielkopolska", furLength: "light", healthCondition: "healthy", image: images[0] },
+  { id: "2", name: "Polina", age: 8, sex: "female", behavior: "passive", region: "Podlasie", furLength: "dark", healthCondition: "healthy", image: images[1] },
+  { id: "3", name: "Polek", age: 12, sex: "male", behavior: "territorial", region: "Podlasie", furLength: "light", healthCondition: "healthy", image: images[2] },
+  { id: "4", name: "Polikarp", age: 15, sex: "male", behavior: "passive", region: "Podlasie", furLength: "dark", healthCondition: "healthy", image: images[3] },
+  { id: "5", name: "Pomian", age: 13, sex: "male", behavior: "aggressive", region: "Western Pomerania", furLength: "dark", healthCondition: "healthy", image: images[4] },
+  { id: "6", name: "Pompejusz", age: 22, sex: "male", behavior: "aggressive", region: "Borecka Forest", furLength: "light", healthCondition: "healthy", image: images[5] },
+  { id: "7", name: "Polańka", age: 16, sex: "female", behavior: "passive", region: "Bieszczady", furLength: "dark", healthCondition: "healthy", image: images[6] },
+  { id: "8", name: "Polidora", age: 22, sex: "female", behavior: "passive", region: "Near Gdańsk", furLength: "dark", healthCondition: "healthy", image: images[7] },
+  { id: "9", name: "Porfir", age: 8, sex: "male", behavior: "territorial", region: "Bieszczady", furLength: "light", healthCondition: "healthy", image: images[8] },
+  { id: "10", name: "Polesia", age: 15, sex: "female", behavior: "very aggressive", region: "Białowieża Forest", furLength: "light", healthCondition: "healthy", image: images[9] },
+  { id: "11", name: "Polonia", age: 7, sex: "female", behavior: "passive", region: "Bieszczady", furLength: "dark", healthCondition: "healthy", image: images[10] },
+  { id: "12", name: "Pompeja", age: 14, sex: "female", behavior: "territorial", region: "Białowieża Forest", furLength: "dark", healthCondition: "healthy", image: images[11] },
+  { id: "13", name: "Polan", age: 10, sex: "male", behavior: "passive", region: "Lower Silesia", furLength: "saturated", healthCondition: "healthy", image: images[12] },
+  { id: "14", name: "Polinka", age: 24, sex: "female", behavior: "aggressive", region: "Bieszczady", furLength: "dark", healthCondition: "healthy", image: images[13] },
+  { id: "15", name: "Polykarp", age: 15, sex: "male", behavior: "territorial", region: "Near Bałtów", furLength: "medium", healthCondition: "healthy", image: images[14] },
+  { id: "16", name: "Polaś", age: 13, sex: "male", behavior: "calm", region: "Białowieża Forest", furLength: "medium", healthCondition: "healthy", image: images[15] },
+  { id: "17", name: "Polana", age: 10, sex: "female", behavior: "alert", region: "Bieszczady", furLength: "light", healthCondition: "healthy", image: images[16] },
+  { id: "18", name: "Poncjusz", age: 15, sex: "male", behavior: "active", region: "Knyszyn Forest", furLength: "medium", healthCondition: "healthy", image: images[17] },
+  { id: "19", name: "Polidora", age: 9, sex: "female", behavior: "very calm", region: "Augustów Forest", furLength: "light", healthCondition: "healthy", image: images[18] },
+  { id: "20", name: "Polmir", age: 11, sex: "male", behavior: "curious", region: "Western Pomeranian Forests", furLength: "thick", healthCondition: "healthy", image: images[19] },
+  { id: "21", name: "Polenus", age: 7, sex: "male", behavior: "lazy", region: "Borecka Forest", furLength: "dark", healthCondition: "healthy", image: images[20] },
+  { id: "22", name: "Polidar", age: 12, sex: "male", behavior: "dominant", region: "Białowieża Forest", furLength: "dark", healthCondition: "healthy", image: images[21] },
+  { id: "23", name: "Polena", age: 9, sex: "female", behavior: "calm", region: "Bieszczady", furLength: "light", healthCondition: "healthy", image: images[22] },
+  { id: "24", name: "Polonia", age: 14, sex: "female", behavior: "cautious", region: "Augustów Forest", furLength: "dark", healthCondition: "healthy", image: images[23] },
+  { id: "25", name: "Polybiusz", age: 10, sex: "male", behavior: "energetic", region: "Knyszyn Forest", furLength: "dark", healthCondition: "healthy", image: images[24] },
+  { id: "26", name: "Poloniusz", age: 14, sex: "male", behavior: "likes open spaces", region: "Borecka Forest", furLength: "medium", healthCondition: "healthy", image: images[25] },
+  { id: "27", name: "Polidor", age: 7, sex: "male", behavior: "watchful", region: "Near Bieszczady", furLength: "dark", healthCondition: "healthy", image: images[26] },
+  { id: "28", name: "Poletta", age: 13, sex: "female", behavior: "social", region: "Western Pomeranian Forests", furLength: "medium", healthCondition: "healthy", image: images[27] },
+  { id: "29", name: "Poliana", age: 6, sex: "female", behavior: "likes wetlands", region: "Białowieża Forest", furLength: "thin", healthCondition: "healthy", image: images[28] },
+  { id: "30", name: "Polonus", age: 11, sex: "male", behavior: "loner", region: "Augustów Forest", furLength: "thick", healthCondition: "healthy", image: images[29] },
 ];
+
+function matchScore(b: Bison, traits: any): number {
+  if (b.quarantine || b.flock) return 0;
+  let score = 0;
+  if (!traits.region || traits.region === b.region) score += 30;
+  if (!traits.behavior || traits.behavior === b.behavior) score += 20;
+  if (!traits.health || traits.health === b.healthCondition) score += 20;
+  return score;
+}
+
+type Advert = {
+  id: string;
+  type: "offer" | "request";
+  title: string;
+  description: string;
+  breeder: string;
+  region?: string;
+  behavior?: string;
+  postedAt: string;
+};
 
 const initialAdverts: Advert[] = [
   {
@@ -456,8 +165,7 @@ const initialAdverts: Advert[] = [
     id: "adv2",
     type: "request",
     title: "calm female wisent",
-    description:
-      "Preferably 3–5 years old, good health, from Podlasie region.",
+    description: "Preferably 3–5 years old, good health, from Podlasie region.",
     breeder: "Jan Kowalski",
     region: "Podlasie",
     behavior: "calm",
@@ -473,223 +181,35 @@ const initialAdverts: Advert[] = [
   },
 ];
 
-// --- Multi Select ---
-const MultiSelectCheckbox = ({
-  items,
-  selected,
-  onSelect,
-  maxHeight = 200,
-}: {
-  items: string[];
-  selected: string[];
-  onSelect: (items: string[]) => void;
-  maxHeight?: number;
-}) => {
-  const [showDropdown, setShowDropdown] = useState(false);
-
-  const toggleItem = (item: string) => {
-    if (selected.includes(item)) {
-      onSelect(selected.filter((i) => i !== item));
-    } else {
-      onSelect([...selected, item]);
-    }
-  };
-
-  return (
-    <View style={styles.multiSelectContainer}>
-      <TouchableOpacity
-        style={styles.multiSelectButton}
-        onPress={() => setShowDropdown(!showDropdown)}
-      >
-        <View style={{ flex: 1 }}>
-          {selected.length === 0 ? (
-            <Text style={styles.multiSelectButtonText}>Select...</Text>
-          ) : (
-            <View style={styles.selectedChipsRow}>
-              {selected.slice(0, 2).map((item) => (
-                <View key={item} style={styles.selectedChip}>
-                  <Text style={styles.selectedChipText}>{item}</Text>
-                </View>
-              ))}
-              {selected.length > 2 && (
-                <View style={styles.selectedChip}>
-                  <Text style={styles.selectedChipText}>
-                    +{selected.length - 2}
-                  </Text>
-                </View>
-              )}
-            </View>
-          )}
-        </View>
-        <Text style={styles.multiSelectArrow}>
-          {showDropdown ? "▲" : "▼"}
-        </Text>
-      </TouchableOpacity>
-
-      {showDropdown && (
-        <BlurView
-          intensity={90}
-          style={[styles.multiSelectDropdown, { maxHeight }]}
-        >
-          <ScrollView nestedScrollEnabled>
-            {items.map((item) => (
-              <View
-                key={item}
-                style={[
-                  styles.multiSelectItem,
-                  selected.includes(item) &&
-                    styles.multiSelectItemSelected,
-                ]}
-              >
-                <TouchableOpacity
-                  style={styles.checkboxRow}
-                  onPress={() => toggleItem(item)}
-                >
-                  <View
-                    style={[
-                      styles.checkbox,
-                      selected.includes(item) && styles.checkboxChecked,
-                    ]}
-                  >
-                    {selected.includes(item) && (
-                      <Text style={styles.checkboxCheck}>✓</Text>
-                    )}
-                  </View>
-                  <Text
-                    style={[
-                      styles.multiSelectItemText,
-                      selected.includes(item) &&
-                        styles.multiSelectItemTextSelected,
-                    ]}
-                  >
-                    {item}
-                  </Text>
-                </TouchableOpacity>
-              </View>
-            ))}
-          </ScrollView>
-        </BlurView>
-      )}
-    </View>
-  );
-};
-
-// --- Single Select ---
-const SingleSelect = ({
-  items,
-  selected,
-  onSelect,
-  maxHeight = 150,
-}: {
-  items: string[];
-  selected: string | null;
-  onSelect: (item: string | null) => void;
-  maxHeight?: number;
-}) => {
-  const [showDropdown, setShowDropdown] = useState(false);
-
-  return (
-    <View style={styles.multiSelectContainer}>
-      <TouchableOpacity
-        style={styles.multiSelectButton}
-        onPress={() => setShowDropdown(!showDropdown)}
-      >
-        <Text style={styles.multiSelectButtonText}>
-          {selected || "Select..."}
-        </Text>
-        <Text style={styles.multiSelectArrow}>
-          {showDropdown ? "▲" : "▼"}
-        </Text>
-      </TouchableOpacity>
-
-      {showDropdown && (
-        <BlurView
-          intensity={90}
-          style={[styles.multiSelectDropdown, { maxHeight }]}
-        >
-          <ScrollView nestedScrollEnabled>
-            {items.map((item) => (
-              <TouchableOpacity
-                key={item}
-                style={[
-                  styles.multiSelectItem,
-                  selected === item && styles.multiSelectItemSelected,
-                ]}
-                onPress={() => {
-                  onSelect(selected === item ? null : item);
-                  setShowDropdown(false);
-                }}
-              >
-                <Text
-                  style={[
-                    styles.multiSelectItemText,
-                    selected === item &&
-                      styles.multiSelectItemTextSelected,
-                  ]}
-                >
-                  {selected === item && "✓ "}
-                  {item}
-                </Text>
-              </TouchableOpacity>
-            ))}
-          </ScrollView>
-        </BlurView>
-      )}
-    </View>
-  );
-};
-
-// --- Glass Button ---
-const GlassButton = ({
-  title,
-  onPress,
-  variant = "primary",
-  style,
-}: {
-  title: string;
-  onPress: () => void;
-  variant?: "primary" | "danger";
-  style?: any;
-}) => {
-  const bgColor =
-    variant === "primary"
-      ? "rgba(46, 125, 50, 0.7)"
-      : "rgba(198, 40, 40, 0.7)";
-  const borderColor =
-    variant === "primary"
-      ? "rgba(46, 125, 50, 0.8)"
-      : "rgba(198, 40, 40, 0.8)";
-
-  return (
-    <TouchableOpacity
-      onPress={onPress}
-      style={[
-        styles.glassButton,
-        { backgroundColor: bgColor, borderColor },
-        style,
-      ]}
-    >
-      <Text style={styles.glassButtonText}>{title}</Text>
-    </TouchableOpacity>
-  );
-};
-
-// --- Main App ---
+// --- App ---
 export default function App() {
-  const [screen, setScreen] = useState("login");
-  const [loggedIn, setLoggedIn] = useState(false);
+  const [screen, setScreen] = useState<
+    | "login"
+    | "list"
+    | "bison"
+    | "addBison"
+    | "filters"
+    | "createFlock"
+    | "flocks"
+    | "stats"
+    | "adverts"
+    | "createAdvert"
+  >("login");
+
   const [user, setUser] = useState("");
   const [pass, setPass] = useState("");
+  const [loggedIn, setLoggedIn] = useState(false);
 
   const [bisonList, setBisonList] = useState(initialBisons);
   const [selectedBison, setSelectedBison] = useState<Bison | null>(null);
+
   const [newBison, setNewBison] = useState<any>({});
   const [adverts, setAdverts] = useState(initialAdverts);
   const [newAdvert, setNewAdvert] = useState<any>({});
 
-  const [regionFilter, setRegionFilter] = useState<string[]>([]);
-  const [healthFilter, setHealthFilter] = useState<string[]>([]);
-  const [behaviorFilter, setBehaviorFilter] = useState<string[]>([]);
+  const [regionFilter, setRegionFilter] = useState<string | null>(null);
+  const [healthFilter, setHealthFilter] = useState<string | null>(null);
+  const [sexFilter, setSexFilter] = useState<string | null>(null);
 
   const [flockName, setFlockName] = useState("");
   const [flockTraits, setFlockTraits] = useState<any>({});
@@ -698,15 +218,13 @@ export default function App() {
   >([]);
 
   const filtered = bisonList.filter((b) => {
-    if (regionFilter.length > 0 && !regionFilter.includes(b.region))
-      return false;
-    if (healthFilter.length > 0 && !healthFilter.includes(b.healthCondition))
-      return false;
-    if (behaviorFilter.length > 0 && !behaviorFilter.includes(b.behavior))
-      return false;
+    if (regionFilter && b.region !== regionFilter) return false;
+    if (healthFilter && b.healthCondition !== healthFilter) return false;
+    if (sexFilter && b.sex !== sexFilter) return false;
     return true;
   });
 
+  // Login
   const doLogin = () => {
     if (user === "admin" && pass === "1234") {
       setLoggedIn(true);
@@ -716,19 +234,24 @@ export default function App() {
     }
   };
 
+  // Quarantine
   const toggleQuarantine = (id: string) => {
     setBisonList(
       bisonList.map((b) =>
         b.id === id ? { ...b, quarantine: !b.quarantine } : b
       )
     );
+    setScreen("list");
   };
 
+  // Delete
   const deleteBison = (id: string) => {
     setBisonList(bisonList.filter((b) => b.id !== id));
     setSelectedBison(null);
+    setScreen("list");
   };
 
+  // Add Bison
   const saveBison = () => {
     if (!newBison.name || !newBison.region) {
       Alert.alert("Error", "Name + region required");
@@ -741,7 +264,7 @@ export default function App() {
       sex: newBison.sex || "male",
       behavior: newBison.behavior || "calm",
       region: newBison.region,
-      furLength: newBison.furLength || "normal",
+      furLength: newBison.furLength || "medium",
       healthCondition: newBison.healthCondition || "healthy",
       image: images[Math.floor(Math.random() * images.length)],
     };
@@ -750,6 +273,7 @@ export default function App() {
     setScreen("list");
   };
 
+  // Create flock
   const saveFlock = () => {
     if (!flockName.trim()) {
       Alert.alert("Error", "Name required");
@@ -757,16 +281,7 @@ export default function App() {
     }
     const candidates = bisonList.filter((b) => !b.flock && !b.quarantine);
     const scored = candidates
-      .map((b) => {
-        let score = 0;
-        if (flockTraits.regions?.length === 0 || flockTraits.regions?.includes(b.region))
-          score += 30;
-        if (flockTraits.behaviors?.length === 0 || flockTraits.behaviors?.includes(b.behavior))
-          score += 20;
-        if (flockTraits.healths?.length === 0 || flockTraits.healths?.includes(b.healthCondition))
-          score += 20;
-        return { b, score };
-      })
+      .map((b) => ({ b, score: matchScore(b, flockTraits) }))
       .sort((a, b) => b.score - a.score);
     const chosen = scored.slice(0, 6).map((v) => v.b);
     if (chosen.length < 5) {
@@ -775,18 +290,18 @@ export default function App() {
     }
     setBisonList(
       bisonList.map((b) =>
-        chosen.find((c) => c.id === b.id) ? { ...b, flock: flockName } : b
+        chosen.find((c) => c.id === b.id)
+          ? { ...b, flock: flockName }
+          : b
       )
     );
-    setFlocks([
-      { name: flockName, traits: flockTraits, members: chosen },
-      ...flocks,
-    ]);
+    setFlocks([{ name: flockName, traits: flockTraits, members: chosen }, ...flocks]);
     setFlockName("");
     setFlockTraits({});
     setScreen("flocks");
   };
 
+  // Save Advert
   const saveAdvert = () => {
     if (!newAdvert.title || !newAdvert.description || !newAdvert.breeder) {
       Alert.alert("Error", "Title, description, and breeder required");
@@ -808,1098 +323,700 @@ export default function App() {
     setScreen("adverts");
   };
 
-  const clearFilters = () => {
-    setRegionFilter([]);
-    setHealthFilter([]);
-    setBehaviorFilter([]);
-  };
-
+  // Stats
   const stats = {
     healthy: bisonList.filter((b) => b.healthCondition === "healthy").length,
     injured: bisonList.filter((b) => b.healthCondition === "injured").length,
     quarantined: bisonList.filter((b) => b.quarantine).length,
-    avgAge: (bisonList.reduce((sum, b) => sum + b.age, 0) / bisonList.length).toFixed(1),
+    avgAge: (
+      bisonList.reduce((sum, b) => sum + b.age, 0) / bisonList.length
+    ).toFixed(1),
     byRegion: regions.map((r) => ({
       region: r,
       count: bisonList.filter((b) => b.region === r).length,
     })),
   };
 
+  const Back = () => (
+    <TouchableOpacity style={styles.btnDanger} onPress={() => setScreen("list")}>
+      <Text style={styles.btnText}>⬅ Back</Text>
+    </TouchableOpacity>
+  );
+
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <BlurView intensity={95} style={styles.headerBlur}>
-          <Image
-            source={require("./assets/logo.png")}
-            style={styles.headerLogo}
-            resizeMode="contain"
-          />
-          <Text style={styles.headerTitle}>🦬 WisentMatch</Text>
-        </BlurView>
+        <Image
+          source={require("./assets/logo.png")}
+          style={styles.headerLogo}
+          resizeMode="contain"
+        />
+        <Text style={styles.headerTitle}>🦬 WisentMatch</Text>
       </View>
 
-      {screen === "login" ? (
+      {/* LOGIN */}
+      {screen === "login" && (
         <View style={styles.center}>
-          <BlurView intensity={90} style={styles.loginCard}>
-            <Text style={styles.title}>Welcome</Text>
-            <TextInput
-              value={user}
-              onChangeText={setUser}
-              placeholder="Username"
-              style={styles.glassInput}
-              placeholderTextColor="rgba(255,255,255,0.5)"
-            />
-            <TextInput
-              value={pass}
-              onChangeText={setPass}
-              placeholder="Password"
-              secureTextEntry
-              style={styles.glassInput}
-              placeholderTextColor="rgba(255,255,255,0.5)"
-            />
-            <GlassButton title="Sign In" onPress={doLogin} />
-          </BlurView>
+          <Text style={styles.title}>Login</Text>
+          <TextInput
+            value={user}
+            onChangeText={setUser}
+            placeholder="Username"
+            style={styles.input}
+          />
+          <TextInput
+            value={pass}
+            onChangeText={setPass}
+            placeholder="Password"
+            secureTextEntry
+            style={styles.input}
+          />
+          <TouchableOpacity style={styles.button} onPress={doLogin}>
+            <Text style={styles.btnText}>Login</Text>
+          </TouchableOpacity>
         </View>
-      ) : screen === "list" ? (
+      )}
+
+      {/* LIST */}
+      {screen === "list" && (
         <>
-          <View style={styles.navigationBar}>
-            <TouchableOpacity style={styles.navItem} onPress={() => setScreen("filters")}>
-              <Text style={styles.navItemText}>🔍</Text>
-              <Text style={styles.navItemLabel}>Filter</Text>
-            </TouchableOpacity>
-            {loggedIn && (
-              <TouchableOpacity style={styles.navItem} onPress={() => setScreen("addBison")}>
-                <Text style={styles.navItemText}>➕</Text>
-                <Text style={styles.navItemLabel}>Add</Text>
-              </TouchableOpacity>
-            )}
-            {loggedIn && (
-              <TouchableOpacity style={styles.navItem} onPress={() => setScreen("createFlock")}>
-                <Text style={styles.navItemText}>👥</Text>
-                <Text style={styles.navItemLabel}>Flock</Text>
-              </TouchableOpacity>
-            )}
-            <TouchableOpacity style={styles.navItem} onPress={() => setScreen("flocks")}>
-              <Text style={styles.navItemText}>🐂</Text>
-              <Text style={styles.navItemLabel}>Herds</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.navItem} onPress={() => setScreen("stats")}>
-              <Text style={styles.navItemText}>📊</Text>
-              <Text style={styles.navItemLabel}>Stats</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.navItem} onPress={() => setScreen("adverts")}>
-              <Text style={styles.navItemText}>📢</Text>
-              <Text style={styles.navItemLabel}>Posts</Text>
+          <View style={styles.menu}>
+            <TouchableOpacity style={styles.button} onPress={() => setScreen("filters")}><Text style={styles.btnText}>Filters</Text></TouchableOpacity>
+            {loggedIn && <TouchableOpacity style={styles.button} onPress={() => setScreen("addBison")}><Text style={styles.btnText}>Add Wisent</Text></TouchableOpacity>}
+            {loggedIn && <TouchableOpacity style={styles.button} onPress={() => setScreen("createFlock")}><Text style={styles.btnText}>Add Flock</Text></TouchableOpacity>}
+            <TouchableOpacity style={styles.button} onPress={() => setScreen("flocks")}><Text style={styles.btnText}>Flocks</Text></TouchableOpacity>
+            <TouchableOpacity style={styles.button} onPress={() => setScreen("stats")}><Text style={styles.btnText}>Stats</Text></TouchableOpacity>
+            <TouchableOpacity style={styles.button} onPress={() => setScreen("adverts")}>
+              <Text style={styles.btnText}>Adverts</Text>
             </TouchableOpacity>
           </View>
-
           <FlatList
             data={filtered}
             keyExtractor={(i) => i.id}
             renderItem={({ item }) => (
               <TouchableOpacity
-                style={styles.glassCard}
+                style={styles.card}
                 onPress={() => {
                   setSelectedBison(item);
                   setScreen("bison");
                 }}
               >
-                <BlurView intensity={85}>
-                  <View style={styles.cardContent}>
-                    <Image source={item.image} style={styles.cardImg} />
-                    <View style={styles.cardInfo}>
-                      <Text style={styles.cardName}>{item.name}</Text>
-                      <Text style={styles.cardMeta}>
-                        {item.age} yrs • {item.region}
-                      </Text>
-                      <View style={styles.statusRow}>
-                        {item.quarantine && (
-                          <View style={styles.quarantineBadge}>
-                            <Text style={styles.badgeText}>🚫</Text>
-                          </View>
-                        )}
-                        <View
-                          style={[
-                            styles.healthBadge,
-                            {
-                              backgroundColor:
-                                item.healthCondition === "healthy"
-                                  ? "rgba(46, 125, 50, 0.3)"
-                                  : "rgba(198, 40, 40, 0.3)",
-                            },
-                          ]}
-                        >
-                          <Text style={styles.badgeText}>
-                            {item.healthCondition === "healthy" ? "✓" : "!"}
-                          </Text>
-                        </View>
-                      </View>
-                    </View>
-                  </View>
-                </BlurView>
+                <Image source={item.image} style={styles.img} />
+                <View style={{ marginLeft: 8 }}>
+                  <Text style={styles.name}>{item.name}</Text>
+                  <Text>{item.age} yrs | {item.region}</Text>
+                  <Text>Health: {item.healthCondition}</Text>
+                  {item.flock && <Text style={{ color: "blue" }}>Flock: {item.flock}</Text>}
+                  {item.quarantine && <Text style={{ color: "red" }}>🚫 Quarantine</Text>}
+                </View>
               </TouchableOpacity>
             )}
-            contentContainerStyle={styles.listContent}
           />
         </>
-      ) : screen === "bison" && selectedBison ? (
-        <ScrollView contentContainerStyle={styles.center}>
-          <Image source={selectedBison.image} style={styles.profileImg} />
-          <Text style={styles.title}>{selectedBison.name}</Text>
-          <Text style={styles.subtitle}>{selectedBison.age} years old</Text>
+      )}
 
-          <BlurView intensity={90} style={styles.infoPanel}>
-            <View style={styles.infoSection}>
+      {/* BISON PROFILE */}
+      {screen === "bison" && selectedBison && (
+        <ScrollView contentContainerStyle={styles.center}>
+          {/* Profile Image */}
+          <Image source={selectedBison.image} style={styles.profileImg} />
+
+          {/* Name & Age */}
+          <Text style={styles.profileName}>{selectedBison.name}</Text>
+          <Text style={styles.profileAge}>{selectedBison.age} years old</Text>
+
+          {/* Info Box */}
+          <View style={styles.infoBox}>
+            <View style={styles.infoRow}>
               <Text style={styles.infoLabel}>📍 Region</Text>
               <Text style={styles.infoValue}>{selectedBison.region}</Text>
             </View>
-            <View style={styles.infoDivider} />
-            <View style={styles.infoSection}>
+            <View style={styles.infoRow}>
               <Text style={styles.infoLabel}>⚧ Sex</Text>
               <Text style={styles.infoValue}>
-                {selectedBison.sex.charAt(0).toUpperCase() +
-                  selectedBison.sex.slice(1)}
+                {selectedBison.sex.charAt(0).toUpperCase() + selectedBison.sex.slice(1)}
               </Text>
             </View>
-            <View style={styles.infoDivider} />
-            <View style={styles.infoSection}>
+            <View style={styles.infoRow}>
               <Text style={styles.infoLabel}>🧬 Behavior</Text>
               <Text style={styles.infoValue}>{selectedBison.behavior}</Text>
             </View>
-            <View style={styles.infoDivider} />
-            <View style={styles.infoSection}>
+            <View style={styles.infoRow}>
               <Text style={styles.infoLabel}>💚 Health</Text>
               <Text
                 style={[
                   styles.infoValue,
-                  {
-                    color:
-                      selectedBison.healthCondition === "healthy"
-                        ? "#2e7d32"
-                        : "#c62828",
-                  },
+                  { color: selectedBison.healthCondition === "healthy" ? "#2e7d32" : "#c62828" },
                 ]}
               >
                 {selectedBison.healthCondition}
               </Text>
             </View>
-            <View style={styles.infoDivider} />
-            <View style={styles.infoSection}>
+            <View style={styles.infoRow}>
               <Text style={styles.infoLabel}>🧥 Fur</Text>
               <Text style={styles.infoValue}>{selectedBison.furLength}</Text>
             </View>
-          </BlurView>
-
-          {loggedIn && (
-            <View style={styles.actionRow}>
-              <GlassButton
-                title={selectedBison.quarantine ? "Remove Quarantine" : "Set Quarantine"}
-                onPress={() => toggleQuarantine(selectedBison.id)}
-              />
-              <GlassButton
-                title="Delete"
-                onPress={() => deleteBison(selectedBison.id)}
-                variant="danger"
-              />
-            </View>
-          )}
-
-          <GlassButton
-            title="⬅ Back"
-            onPress={() => setScreen("list")}
-            style={{ marginTop: 10 }}
-          />
-        </ScrollView>
-      ) : screen === "filters" ? (
-        <ScrollView contentContainerStyle={styles.center}>
-          <Text style={styles.title}>Filters</Text>
-
-          <BlurView intensity={90} style={styles.filterPanel}>
-            <Text style={styles.formLabel}>Region</Text>
-            <MultiSelectCheckbox
-              items={regions}
-              selected={regionFilter}
-              onSelect={setRegionFilter}
-              maxHeight={200}
-            />
-
-            <Text style={styles.formLabel}>Behavior</Text>
-            <MultiSelectCheckbox
-              items={behaviors}
-              selected={behaviorFilter}
-              onSelect={setBehaviorFilter}
-              maxHeight={200}
-            />
-
-            <Text style={styles.formLabel}>Health</Text>
-            <MultiSelectCheckbox
-              items={healths}
-              selected={healthFilter}
-              onSelect={setHealthFilter}
-            />
-
-            <GlassButton
-              title="🔄 Clear All Filters"
-              onPress={clearFilters}
-              variant="danger"
-              style={{ marginTop: 16 }}
-            />
-          </BlurView>
-
-          <GlassButton title="⬅ Back" onPress={() => setScreen("list")} style={{ marginTop: 10 }} />
-        </ScrollView>
-      ) : screen === "addBison" ? (
-        <ScrollView contentContainerStyle={styles.center}>
-          <Text style={styles.title}>Add Wisent</Text>
-
-          <BlurView intensity={90} style={styles.formPanel}>
-            <TextInput
-              placeholder="Name"
-              value={newBison.name}
-              onChangeText={(t) => setNewBison({ ...newBison, name: t })}
-              style={styles.glassInput}
-              placeholderTextColor="rgba(255,255,255,0.5)"
-            />
-            <TextInput
-              placeholder="Age"
-              value={newBison.age}
-              onChangeText={(t) => setNewBison({ ...newBison, age: t })}
-              style={styles.glassInput}
-              keyboardType="number-pad"
-              placeholderTextColor="rgba(255,255,255,0.5)"
-            />
-
-            <Text style={styles.formLabel}>Sex</Text>
-            <View style={styles.radioGroup}>
-              {["male", "female"].map((sex) => (
-                <TouchableOpacity
-                  key={sex}
-                  style={styles.radioOption}
-                  onPress={() => setNewBison({ ...newBison, sex })}
-                >
-                  <View
-                    style={[
-                      styles.radio,
-                      newBison.sex === sex && styles.radioSelected,
-                    ]}
-                  >
-                    {newBison.sex === sex && (
-                      <View style={styles.radioDot} />
-                    )}
-                  </View>
-                  <Text style={styles.radioLabel}>
-                    {sex.charAt(0).toUpperCase() + sex.slice(1)}
-                  </Text>
-                </TouchableOpacity>
-              ))}
-            </View>
-
-            <Text style={styles.formLabel}>Behavior</Text>
-            <SingleSelect
-              items={behaviors}
-              selected={newBison.behavior}
-              onSelect={(v) => setNewBison({ ...newBison, behavior: v })}
-            />
-
-            <Text style={styles.formLabel}>Region</Text>
-            <SingleSelect
-              items={regions}
-              selected={newBison.region}
-              onSelect={(v) => setNewBison({ ...newBison, region: v })}
-            />
-
-            <Text style={styles.formLabel}>Fur Length</Text>
-            <View style={styles.radioGroup}>
-              {["normal", "thick"].map((fur) => (
-                <TouchableOpacity
-                  key={fur}
-                  style={styles.radioOption}
-                  onPress={() => setNewBison({ ...newBison, furLength: fur })}
-                >
-                  <View
-                    style={[
-                      styles.radio,
-                      newBison.furLength === fur && styles.radioSelected,
-                    ]}
-                  >
-                    {newBison.furLength === fur && (
-                      <View style={styles.radioDot} />
-                    )}
-                  </View>
-                  <Text style={styles.radioLabel}>
-                    {fur.charAt(0).toUpperCase() + fur.slice(1)}
-                  </Text>
-                </TouchableOpacity>
-              ))}
-            </View>
-
-            <Text style={styles.formLabel}>Health</Text>
-            <View style={styles.radioGroup}>
-              {["healthy", "injured"].map((health) => (
-                <TouchableOpacity
-                  key={health}
-                  style={styles.radioOption}
-                  onPress={() => setNewBison({ ...newBison, healthCondition: health })}
-                >
-                  <View
-                    style={[
-                      styles.radio,
-                      newBison.healthCondition === health &&
-                        styles.radioSelected,
-                    ]}
-                  >
-                    {newBison.healthCondition === health && (
-                      <View style={styles.radioDot} />
-                    )}
-                  </View>
-                  <Text style={styles.radioLabel}>
-                    {health.charAt(0).toUpperCase() + health.slice(1)}
-                  </Text>
-                </TouchableOpacity>
-              ))}
-            </View>
-          </BlurView>
-
-          <GlassButton title="Save Wisent" onPress={saveBison} />
-          <GlassButton title="⬅ Back" onPress={() => setScreen("list")} style={{ marginTop: 10 }} />
-        </ScrollView>
-      ) : screen === "createFlock" ? (
-        <ScrollView contentContainerStyle={styles.center}>
-          <Text style={styles.title}>Create Herd</Text>
-
-          <BlurView intensity={90} style={styles.formPanel}>
-            <TextInput
-              placeholder="Herd Name"
-              value={flockName}
-              onChangeText={setFlockName}
-              style={styles.glassInput}
-              placeholderTextColor="rgba(255,255,255,0.5)"
-            />
-
-            <Text style={styles.formLabel}>Region</Text>
-            <MultiSelectCheckbox
-              items={regions}
-              selected={flockTraits.regions || []}
-              onSelect={(v) => setFlockTraits({ ...flockTraits, regions: v })}
-              maxHeight={150}
-            />
-
-            <Text style={styles.formLabel}>Behavior</Text>
-            <MultiSelectCheckbox
-              items={behaviors}
-              selected={flockTraits.behaviors || []}
-              onSelect={(v) => setFlockTraits({ ...flockTraits, behaviors: v })}
-              maxHeight={150}
-            />
-
-            <Text style={styles.formLabel}>Health</Text>
-            <MultiSelectCheckbox
-              items={healths}
-              selected={flockTraits.healths || []}
-              onSelect={(v) => setFlockTraits({ ...flockTraits, healths: v })}
-            />
-          </BlurView>
-
-          <GlassButton title="Create Herd" onPress={saveFlock} />
-          <GlassButton title="⬅ Back" onPress={() => setScreen("list")} style={{ marginTop: 10 }} />
-        </ScrollView>
-      ) : screen === "flocks" ? (
-        <ScrollView contentContainerStyle={styles.center}>
-          <Text style={styles.title}>🐂 Herds</Text>
-
-          {flocks.length === 0 ? (
-            <Text style={styles.emptyState}>No herds created yet</Text>
-          ) : (
-            flocks.map((f, i) => (
-              <BlurView key={i} intensity={85} style={styles.herdCard}>
-                <Text style={styles.herdTitle}>{f.name}</Text>
-
-                <View style={styles.traitRow}>
-                  {f.traits.regions?.map((region: string) => (
-                    <View key={region} style={styles.traitTag}>
-                      <Text style={styles.traitTagText}>📍 {region}</Text>
-                    </View>
-                  ))}
-                  {f.traits.behaviors?.map((behavior: string) => (
-                    <View key={behavior} style={styles.traitTag}>
-                      <Text style={styles.traitTagText}>🧬 {behavior}</Text>
-                    </View>
-                  ))}
-                </View>
-
-                <View style={styles.memberGrid}>
-                  {f.members.map((m) => (
-                    <View key={m.id} style={styles.memberTile}>
-                      <Image source={m.image} style={styles.memberImg} />
-                      <Text style={styles.memberNameSmall}>{m.name}</Text>
-                    </View>
-                  ))}
-                </View>
-              </BlurView>
-            ))
-          )}
-
-          <GlassButton title="⬅ Back" onPress={() => setScreen("list")} style={{ marginTop: 10 }} />
-        </ScrollView>
-      ) : screen === "stats" ? (
-        <ScrollView contentContainerStyle={styles.center}>
-          <Text style={styles.title}>📊 Statistics</Text>
-
-          <View style={styles.statsGrid}>
-            <BlurView intensity={85} style={styles.statTile}>
-              <Text style={styles.statEmoji}>✅</Text>
-              <Text style={styles.statValue}>{stats.healthy}</Text>
-              <Text style={styles.statLabel}>Healthy</Text>
-            </BlurView>
-
-            <BlurView intensity={85} style={styles.statTile}>
-              <Text style={styles.statEmoji}>❌</Text>
-              <Text style={styles.statValue}>{stats.injured}</Text>
-              <Text style={styles.statLabel}>Injured</Text>
-            </BlurView>
-
-            <BlurView intensity={85} style={styles.statTile}>
-              <Text style={styles.statEmoji}>🚫</Text>
-              <Text style={styles.statValue}>{stats.quarantined}</Text>
-              <Text style={styles.statLabel}>Quarantined</Text>
-            </BlurView>
-
-            <BlurView intensity={85} style={styles.statTile}>
-              <Text style={styles.statEmoji}>📈</Text>
-              <Text style={styles.statValue}>{stats.avgAge}</Text>
-              <Text style={styles.statLabel}>Avg Age</Text>
-            </BlurView>
           </View>
 
-          <BlurView intensity={90} style={styles.regionStats}>
-            <Text style={styles.regionStatsTitle}>By Region</Text>
-            {stats.byRegion.map((r) => (
-              <View key={r.region} style={styles.regionRow}>
-                <Text style={styles.regionName}>{r.region}</Text>
-                <View style={styles.regionBar}>
-                  <View
-                    style={[
-                      styles.regionBarFill,
-                      { width: `${(r.count / 30) * 100}%` },
-                    ]}
-                  />
-                </View>
-                <Text style={styles.regionCount}>{r.count}</Text>
-              </View>
-            ))}
-          </BlurView>
-
-          <GlassButton title="⬅ Back" onPress={() => setScreen("list")} style={{ marginTop: 10 }} />
-        </ScrollView>
-      ) : screen === "adverts" ? (
-        <ScrollView contentContainerStyle={styles.center}>
-          <Text style={styles.title}>📢 Marketplace</Text>
-
+          {/* Action Buttons */}
           {loggedIn && (
-            <GlassButton title="➕ Post New" onPress={() => setScreen("createAdvert")} />
+            <View style={styles.actionsRow}>
+              <TouchableOpacity
+                style={[
+                  styles.actionBtn,
+                  { backgroundColor: selectedBison.quarantine ? "#ffa000" : "#f57c00" },
+                ]}
+                onPress={() => toggleQuarantine(selectedBison.id)}
+              >
+                <Text style={styles.actionBtnText}>
+                  {selectedBison.quarantine ? "Remove Quarantine" : "Set Quarantine"}
+                </Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                style={[styles.actionBtn, { backgroundColor: "#c62828" }]}
+                onPress={() => deleteBison(selectedBison.id)}
+              >
+                <Text style={styles.actionBtnText}>Delete</Text>
+              </TouchableOpacity>
+            </View>
           )}
 
+          <Back />
+        </ScrollView>
+      )}
+
+      {/* ADD BISON */}
+      {screen === "addBison" && (
+        <ScrollView contentContainerStyle={styles.center}>
+          <Text style={styles.title}>Add wisent</Text>
+          {["name", "age", "sex", "behavior", "region", "furLength", "healthCondition"].map((f) => (
+            <TextInput key={f} placeholder={f} value={newBison[f]} onChangeText={(t) => setNewBison({ ...newBison, [f]: t })} style={styles.input} />
+          ))}
+          <TouchableOpacity style={styles.button} onPress={saveBison}><Text style={styles.btnText}>Save</Text></TouchableOpacity>
+          <Back />
+        </ScrollView>
+      )}
+
+      {/* FILTERS */}
+      {screen === "filters" && (
+        <ScrollView contentContainerStyle={styles.center}>
+          <Text style={styles.title}>Filters</Text>
+          <Text>Region</Text>
+          {regions.map((r) => (
+            <TouchableOpacity key={r} style={[styles.button, { backgroundColor: regionFilter === r ? "green" : "grey" }]} onPress={() => setRegionFilter(regionFilter === r ? null : r)}><Text style={styles.btnText}>{r}</Text></TouchableOpacity>
+          ))}
+          <Text>Sex</Text>
+          {["male", "female"].map((s) => (
+            <TouchableOpacity key={s} style={[styles.button, { backgroundColor: sexFilter === s ? "green" : "grey" }]} onPress={() => setSexFilter(sexFilter === s ? null : s)}><Text style={styles.btnText}>{s}</Text></TouchableOpacity>
+          ))}
+          <Text>Health</Text>
+          {healths.map((h) => (
+            <TouchableOpacity key={h} style={[styles.button, { backgroundColor: healthFilter === h ? "green" : "grey" }]} onPress={() => setHealthFilter(healthFilter === h ? null : h)}><Text style={styles.btnText}>{h}</Text></TouchableOpacity>
+          ))}
+          <Back />
+        </ScrollView>
+      )}
+
+      {/* CREATE FLOCK */}
+      {screen === "createFlock" && loggedIn && (
+        <ScrollView contentContainerStyle={styles.center}>
+          <Text style={styles.title}>Create Flock</Text>
+          <TextInput placeholder="Flock Name" style={styles.input} value={flockName} onChangeText={setFlockName} />
+          <Text>Region</Text>
+          {regions.map((r) => (
+            <TouchableOpacity key={r} style={[styles.button, { backgroundColor: flockTraits.region === r ? "green" : "grey" }]} onPress={() => setFlockTraits({ ...flockTraits, region: flockTraits.region === r ? null : r })}><Text style={styles.btnText}>{r}</Text></TouchableOpacity>
+          ))}
+          <Text>Behavior</Text>
+          {behaviors.map((b) => (
+            <TouchableOpacity key={b} style={[styles.button, { backgroundColor: flockTraits.behavior === b ? "green" : "grey" }]} onPress={() => setFlockTraits({ ...flockTraits, behavior: flockTraits.behavior === b ? null : b })}><Text style={styles.btnText}>{b}</Text></TouchableOpacity>
+          ))}
+          <Text>Health</Text>
+          {healths.map((h) => (
+            <TouchableOpacity key={h} style={[styles.button, { backgroundColor: flockTraits.health === h ? "green" : "grey" }]} onPress={() => setFlockTraits({ ...flockTraits, health: flockTraits.health === h ? null : h })}><Text style={styles.btnText}>{h}</Text></TouchableOpacity>
+          ))}
+          <TouchableOpacity style={styles.button} onPress={saveFlock}><Text style={styles.btnText}>Save Flock</Text></TouchableOpacity>
+          <Back />
+        </ScrollView>
+      )}
+
+      {/* SAVED FLOCKS */}
+      {screen === "flocks" && (
+        <ScrollView contentContainerStyle={styles.center}>
+          <Text style={styles.title}>🐂 Saved Flocks</Text>
+          {flocks.length === 0 && <Text>No flocks yet</Text>}
+          {flocks.map((f, i) => (
+            <View key={i} style={styles.flockCard}>
+              {/* Flock Header */}
+              <Text style={styles.flockTitle}>{f.name}</Text>
+
+              {/* Traits Chips */}
+              <View style={styles.traitsRow}>
+                {f.traits.region && (
+                  <View style={styles.traitChip}>
+                    <Text style={styles.traitText}>{f.traits.region}</Text>
+                  </View>
+                )}
+                {f.traits.behavior && (
+                  <View style={styles.traitChip}>
+                    <Text style={styles.traitText}>{f.traits.behavior}</Text>
+                  </View>
+                )}
+                {f.traits.health && (
+                  <View style={styles.traitChip}>
+                    <Text style={styles.traitText}>{f.traits.health}</Text>
+                  </View>
+                )}
+              </View>
+
+              {/* Members Grid */}
+              <View style={styles.membersRow}>
+                {f.members.map((m) => (
+                  <View key={m.id} style={styles.memberCard}>
+                    <Image source={m.image} style={styles.memberImg} />
+                    <Text style={styles.memberName}>{m.name}</Text>
+                    <Text style={styles.memberInfo}>
+                      {m.age} yrs · {m.sex}
+                    </Text>
+                  </View>
+                ))}
+              </View>
+            </View>
+          ))}
+          <Back />
+        </ScrollView>
+      )}
+
+      {/* STATS */}
+      {screen === "stats" && (
+        <ScrollView contentContainerStyle={styles.center}>
+          <Text style={styles.title}>📊 Stats</Text>
+          <View style={styles.statCard}><Text>✅ Healthy</Text><Text>{stats.healthy}</Text></View>
+          <View style={styles.statCard}><Text>❌ Injured</Text><Text>{stats.injured}</Text></View>
+          <View style={styles.statCard}><Text>🚫 Quarantined</Text><Text>{stats.quarantined}</Text></View>
+          <View style={styles.statCard}><Text>📈 Avg Age</Text><Text>{stats.avgAge}</Text></View>
+          <View style={styles.statCardFull}>
+            <Text style={{ fontWeight: "bold" }}>By Region:</Text>
+            {stats.byRegion.map((r) => (
+              <Text key={r.region}>{r.region}: {r.count}</Text>
+            ))}
+          </View>
+          <Back />
+        </ScrollView>
+      )}
+
+      {/* ADVERTS */}
+      {screen === "adverts" && (
+        <ScrollView contentContainerStyle={styles.center}>
+          <Text style={styles.title}>📢 Adverts</Text>
+          {loggedIn && (
+            <TouchableOpacity
+              style={styles.button}
+              onPress={() => setScreen("createAdvert")}
+            >
+              <Text style={styles.btnText}>➕ Post New Advert</Text>
+            </TouchableOpacity>
+          )}
           {adverts.map((adv) => (
-            <BlurView
+            <View
               key={adv.id}
-              intensity={85}
               style={[
                 styles.advertCard,
                 {
-                  borderLeftColor: adv.type === "offer" ? "#2e7d32" : "#1565c0",
+                  borderLeftColor:
+                    adv.type === "offer" ? "#2e7d32" : "#1565c0",
                 },
               ]}
             >
-              <View style={styles.advertHeader}>
-                <Text style={styles.advertType}>
-                  {adv.type === "offer" ? "💰" : "🔍"}
-                </Text>
-                <Text style={styles.advertTitle}>{adv.title}</Text>
-              </View>
-
+              <Text style={styles.advertTitle}>
+                {adv.type === "offer" ? "💰 For Sale" : "🔍 Looking For"}{" "}
+                {adv.title}
+              </Text>
               <Text style={styles.advertDesc}>{adv.description}</Text>
 
-              <View style={styles.traitRow}>
+              {/* traits */}
+              <View style={styles.traitsRow}>
                 {adv.region && (
-                  <View style={styles.traitTag}>
-                    <Text style={styles.traitTagText}>{adv.region}</Text>
+                  <View style={styles.traitChip}>
+                    <Text style={styles.traitText}>{adv.region}</Text>
                   </View>
                 )}
                 {adv.behavior && (
-                  <View style={styles.traitTag}>
-                    <Text style={styles.traitTagText}>{adv.behavior}</Text>
+                  <View style={styles.traitChip}>
+                    <Text style={styles.traitText}>{adv.behavior}</Text>
                   </View>
                 )}
               </View>
 
-              <Text style={styles.advertMeta}>
-                {adv.breeder} • {adv.postedAt}
+              <Text style={styles.advertBreeder}>
+                👤 {adv.breeder} · 📅 {adv.postedAt}
               </Text>
-            </BlurView>
+            </View>
+          ))}
+          <Back />
+        </ScrollView>
+      )}
+
+      {/* CREATE ADVERT */}
+      {screen === "createAdvert" && loggedIn && (
+        <ScrollView contentContainerStyle={styles.center}>
+          <Text style={styles.title}>📝 Post New Advert</Text>
+
+          {/* Type Selection */}
+          <Text style={{ marginTop: 10, fontWeight: "bold" }}>Type</Text>
+          <View
+            style={{
+              flexDirection: "row",
+              justifyContent: "center",
+              marginBottom: 10,
+            }}
+          >
+            <TouchableOpacity
+              style={[
+                styles.button,
+                {
+                  backgroundColor:
+                    newAdvert.type === "offer" ? "#2e7d32" : "#aaa",
+                },
+              ]}
+              onPress={() => setNewAdvert({ ...newAdvert, type: "offer" })}
+            >
+              <Text style={styles.btnText}>💰 Offer</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={[
+                styles.button,
+                {
+                  backgroundColor:
+                    newAdvert.type === "request" ? "#1565c0" : "#aaa",
+                },
+              ]}
+              onPress={() => setNewAdvert({ ...newAdvert, type: "request" })}
+            >
+              <Text style={styles.btnText}>🔍 Request</Text>
+            </TouchableOpacity>
+          </View>
+
+          {/* Text Inputs */}
+          <TextInput
+            placeholder="Title"
+            value={newAdvert.title}
+            onChangeText={(t) =>
+              setNewAdvert({ ...newAdvert, title: t })
+            }
+            style={styles.input}
+          />
+          <TextInput
+            placeholder="Description"
+            value={newAdvert.description}
+            onChangeText={(t) =>
+              setNewAdvert({ ...newAdvert, description: t })
+            }
+            multiline
+            numberOfLines={4}
+            style={[styles.input, { minHeight: 80 }]}
+          />
+          <TextInput
+            placeholder="Breeder Name"
+            value={newAdvert.breeder}
+            onChangeText={(t) =>
+              setNewAdvert({ ...newAdvert, breeder: t })
+            }
+            style={styles.input}
+          />
+
+          {/* Region Selection */}
+          <Text style={{ marginTop: 10, fontWeight: "bold" }}>
+            Region (Optional)
+          </Text>
+          {regions.map((r) => (
+            <TouchableOpacity
+              key={r}
+              style={[
+                styles.button,
+                {
+                  backgroundColor:
+                    newAdvert.region === r ? "#00897b" : "#aaa",
+                },
+              ]}
+              onPress={() =>
+                setNewAdvert({
+                  ...newAdvert,
+                  region: newAdvert.region === r ? null : r,
+                })
+              }
+            >
+              <Text style={styles.btnText}>{r}</Text>
+            </TouchableOpacity>
           ))}
 
-          <GlassButton title="⬅ Back" onPress={() => setScreen("list")} style={{ marginTop: 10 }} />
-        </ScrollView>
-      ) : screen === "createAdvert" ? (
-        <ScrollView contentContainerStyle={styles.center}>
-          <Text style={styles.title}>Post Listing</Text>
-
-          <BlurView intensity={90} style={styles.formPanel}>
-            <Text style={styles.formLabel}>Type</Text>
-            <View style={styles.radioGroup}>
-              {[
-                { label: "💰 Offer", value: "offer" },
-                { label: "🔍 Request", value: "request" },
-              ].map((option) => (
-                <TouchableOpacity
-                  key={option.value}
-                  style={styles.radioOption}
-                  onPress={() => setNewAdvert({ ...newAdvert, type: option.value })}
-                >
-                  <View
-                    style={[
-                      styles.radio,
-                      newAdvert.type === option.value && styles.radioSelected,
-                    ]}
-                  >
-                    {newAdvert.type === option.value && (
-                      <View style={styles.radioDot} />
-                    )}
-                  </View>
-                  <Text style={styles.radioLabel}>{option.label}</Text>
-                </TouchableOpacity>
-              ))}
-            </View>
-
-            <TextInput
-              placeholder="Title"
-              value={newAdvert.title}
-              onChangeText={(t) => setNewAdvert({ ...newAdvert, title: t })}
-              style={styles.glassInput}
-              placeholderTextColor="rgba(255,255,255,0.5)"
-            />
-
-            <TextInput
-              placeholder="Description"
-              value={newAdvert.description}
-              onChangeText={(t) =>
-                setNewAdvert({ ...newAdvert, description: t })
-              }
-              multiline
-              numberOfLines={4}
+          {/* Behavior Selection */}
+          <Text style={{ marginTop: 10, fontWeight: "bold" }}>
+            Behavior (Optional)
+          </Text>
+          {behaviors.map((b) => (
+            <TouchableOpacity
+              key={b}
               style={[
-                styles.glassInput,
-                { minHeight: 80, textAlignVertical: "top" },
+                styles.button,
+                {
+                  backgroundColor:
+                    newAdvert.behavior === b ? "#00897b" : "#aaa",
+                },
               ]}
-              placeholderTextColor="rgba(255,255,255,0.5)"
-            />
+              onPress={() =>
+                setNewAdvert({
+                  ...newAdvert,
+                  behavior: newAdvert.behavior === b ? null : b,
+                })
+              }
+            >
+              <Text style={styles.btnText}>{b}</Text>
+            </TouchableOpacity>
+          ))}
 
-            <TextInput
-              placeholder="Your Name"
-              value={newAdvert.breeder}
-              onChangeText={(t) => setNewAdvert({ ...newAdvert, breeder: t })}
-              style={styles.glassInput}
-              placeholderTextColor="rgba(255,255,255,0.5)"
-            />
+          {/* Save Button */}
+          <TouchableOpacity
+            style={[styles.button, { marginTop: 15 }]}
+            onPress={saveAdvert}
+          >
+            <Text style={styles.btnText}>✅ Post Advert</Text>
+          </TouchableOpacity>
 
-            <Text style={styles.formLabel}>Region (Optional)</Text>
-            <SingleSelect
-              items={regions}
-              selected={newAdvert.region}
-              onSelect={(v) => setNewAdvert({ ...newAdvert, region: v })}
-            />
-
-            <Text style={styles.formLabel}>Behavior (Optional)</Text>
-            <SingleSelect
-              items={behaviors}
-              selected={newAdvert.behavior}
-              onSelect={(v) => setNewAdvert({ ...newAdvert, behavior: v })}
-            />
-          </BlurView>
-
-          <GlassButton title="Post Listing" onPress={saveAdvert} />
-          <GlassButton title="⬅ Back" onPress={() => setScreen("list")} style={{ marginTop: 10 }} />
+          <Back />
         </ScrollView>
-      ) : null}
+      )}
     </View>
   );
 }
 
 // --- Styles ---
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: "#0f1419" },
-  center: {
-    flexGrow: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    padding: 16,
-  },
+  container: { flex: 1, backgroundColor: "#f8f8f8" },
   header: {
-    paddingTop: Platform.OS === "ios" ? 50 : 16,
-    paddingBottom: 16,
-    paddingHorizontal: 16,
-  },
-  headerBlur: {
+    backgroundColor: "#1b5e20",
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
-    borderRadius: 20,
-    padding: 16,
-    overflow: "hidden",
-    borderWidth: 1,
-    borderColor: "rgba(255, 255, 255, 0.2)",
+    paddingVertical: 20,
+    paddingHorizontal: 10,
+    paddingTop: 80,
   },
-  headerLogo: { width: 40, height: 40, marginRight: 12 },
   headerTitle: {
     color: "#fff",
     fontSize: 24,
     fontWeight: "bold",
+    marginLeft: 10,
   },
-  navigationBar: {
+  headerLogo: {
+    width: 40,
+    height: 40,
+  },
+  card: {
     flexDirection: "row",
-    justifyContent: "space-around",
-    alignItems: "center",
-    paddingVertical: 12,
-    paddingHorizontal: 8,
-    backgroundColor: "rgba(0, 0, 0, 0.3)",
-  },
-  navItem: {
-    alignItems: "center",
-    paddingVertical: 8,
-    paddingHorizontal: 12,
-    borderRadius: 12,
-    backgroundColor: "rgba(46, 125, 50, 0.2)",
-  },
-  navItemText: { fontSize: 24, marginBottom: 4 },
-  navItemLabel: { color: "#fff", fontSize: 11, fontWeight: "600" },
-  glassCard: {
-    marginHorizontal: 12,
-    marginVertical: 8,
-    borderRadius: 16,
-    overflow: "hidden",
-    borderWidth: 1,
-    borderColor: "rgba(255, 255, 255, 0.2)",
-  },
-  cardContent: {
-    flexDirection: "row",
-    padding: 12,
-  },
-  cardImg: {
-    width: 80,
-    height: 80,
-    borderRadius: 12,
-    marginRight: 12,
-  },
-  cardInfo: { flex: 1, justifyContent: "center" },
-  cardName: {
-    color: "#fff",
-    fontSize: 18,
-    fontWeight: "bold",
-    marginBottom: 4,
-  },
-  cardMeta: { color: "rgba(255, 255, 255, 0.7)", fontSize: 12 },
-  statusRow: {
-    flexDirection: "row",
-    marginTop: 8,
-    gap: 8,
-  },
-  quarantineBadge: {
-    backgroundColor: "rgba(198, 40, 40, 0.4)",
+    backgroundColor: "#fff",
+    margin: 8,
+    padding: 10,
     borderRadius: 8,
-    paddingHorizontal: 8,
-    paddingVertical: 4,
-    borderWidth: 1,
-    borderColor: "rgba(198, 40, 40, 0.6)",
+    elevation: 2,
   },
-  healthBadge: {
-    borderRadius: 8,
-    paddingHorizontal: 8,
-    paddingVertical: 4,
-    borderWidth: 1,
-    borderColor: "rgba(46, 125, 50, 0.6)",
+  img: { width: 70, height: 70, borderRadius: 8 },
+  name: { fontSize: 18, fontWeight: "bold", color: "#2e7d32" },
+  title: { margin: 6, fontSize: 20, fontWeight: "bold", color: "#2e7d32" },
+  button: { backgroundColor: "#2e7d32", padding: 10, borderRadius: 6, margin: 4 },
+  btnDanger: {
+    backgroundColor: "#c62828",
+    padding: 10,
+    borderRadius: 6,
+    margin: 4,
   },
-  badgeText: { color: "#fff", fontSize: 12, fontWeight: "600" },
-  listContent: { paddingBottom: 20 },
-  formPanel: {
-    width: "90%",
-    borderRadius: 20,
-    padding: 20,
-    marginVertical: 16,
-    overflow: "hidden",
-    borderWidth: 1,
-    borderColor: "rgba(255, 255, 255, 0.2)",
-  },
-  glassInput: {
-    backgroundColor: "rgba(255, 255, 255, 0.1)",
-    borderRadius: 12,
-    paddingHorizontal: 16,
-    paddingVertical: 12,
-    color: "#fff",
-    marginBottom: 12,
-    borderWidth: 1,
-    borderColor: "rgba(255, 255, 255, 0.2)",
-  },
-  formLabel: {
-    color: "#fff",
-    fontSize: 14,
-    fontWeight: "600",
-    marginBottom: 8,
-    marginTop: 12,
-  },
-  multiSelectContainer: { width: "100%", marginBottom: 12 },
-  multiSelectButton: {
-    backgroundColor: "rgba(255, 255, 255, 0.1)",
-    borderRadius: 12,
-    paddingHorizontal: 16,
-    paddingVertical: 12,
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    borderWidth: 1,
-    borderColor: "rgba(255, 255, 255, 0.2)",
-  },
-  multiSelectButtonText: { color: "#fff", fontSize: 14, fontWeight: "500" },
-  multiSelectArrow: { color: "rgba(255, 255, 255, 0.7)", fontSize: 12 },
-  multiSelectDropdown: {
-    marginTop: 8,
-    borderRadius: 12,
-    borderWidth: 1,
-    borderColor: "rgba(255, 255, 255, 0.2)",
-    overflow: "hidden",
-  },
-  multiSelectItem: {
-    paddingHorizontal: 16,
-    paddingVertical: 8,
-    borderBottomWidth: 1,
-    borderBottomColor: "rgba(255, 255, 255, 0.1)",
-  },
-  multiSelectItemSelected: {
-    backgroundColor: "rgba(46, 125, 50, 0.3)",
-  },
-  multiSelectItemText: { color: "#fff", fontSize: 14 },
-  multiSelectItemTextSelected: { fontWeight: "600", color: "#4caf50" },
-  checkboxRow: {
-    flexDirection: "row",
-    alignItems: "center",
-    paddingVertical: 4,
-  },
-  checkbox: {
-    width: 20,
-    height: 20,
-    borderRadius: 4,
-    borderWidth: 2,
-    borderColor: "rgba(255, 255, 255, 0.4)",
-    marginRight: 12,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  checkboxChecked: {
-    backgroundColor: "rgba(46, 125, 50, 0.6)",
-    borderColor: "rgba(46, 125, 50, 0.8)",
-  },
-  checkboxCheck: {
-    color: "#fff",
-    fontSize: 12,
-    fontWeight: "bold",
-  },
-  selectedChipsRow: {
+  btnText: { color: "#fff", fontWeight: "600", textAlign: "center" },
+  topRow: {
     flexDirection: "row",
     flexWrap: "wrap",
-    gap: 6,
+    justifyContent: "center",
   },
-  selectedChip: {
-    backgroundColor: "rgba(46, 125, 50, 0.4)",
+  input: {
+    borderWidth: 1,
+    borderColor: "#aaa",
+    padding: 8,
+    borderRadius: 6,
+    margin: 5,
+    width: "90%",
+  },
+  center: {
+    flexGrow: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    padding: 20,
+  },
+  bigImg: { width: 180, height: 180, borderRadius: 90, margin: 10 },
+  menu: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    justifyContent: "center",
+    marginVertical: 5,
+  },
+  flockCard: {
+    backgroundColor: "#fff",
+    padding: 15,
+    borderRadius: 12,
+    marginVertical: 8,
+    width: "95%",
+    elevation: 3,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.15,
+    shadowRadius: 4,
+  },
+  flockTitle: {
+    fontWeight: "bold",
+    fontSize: 20,
+    color: "#1565c0",
+    marginBottom: 8,
+    textAlign: "center",
+  },
+  traitsRow: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    justifyContent: "center",
+    marginBottom: 10,
+  },
+  traitChip: {
+    backgroundColor: "#e0f2f1",
     paddingHorizontal: 10,
     paddingVertical: 4,
-    borderRadius: 8,
-    borderWidth: 1,
-    borderColor: "rgba(46, 125, 50, 0.6)",
-  },
-  selectedChipText: { color: "#fff", fontSize: 12, fontWeight: "600" },
-  radioGroup: {
-    flexDirection: "row",
-    gap: 16,
-    marginBottom: 12,
-    flexWrap: "wrap",
-  },
-  radioOption: {
-    flexDirection: "row",
-    alignItems: "center",
-  },
-  radio: {
-    width: 20,
-    height: 20,
-    borderRadius: 10,
-    borderWidth: 2,
-    borderColor: "rgba(255, 255, 255, 0.4)",
-    marginRight: 8,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  radioSelected: {
-    borderColor: "rgba(46, 125, 50, 0.8)",
-    backgroundColor: "rgba(46, 125, 50, 0.3)",
-  },
-  radioDot: {
-    width: 10,
-    height: 10,
-    borderRadius: 5,
-    backgroundColor: "#4caf50",
-  },
-  radioLabel: {
-    color: "#fff",
-    fontSize: 14,
-    fontWeight: "500",
-  },
-  glassButton: {
-    backgroundColor: "rgba(46, 125, 50, 0.7)",
-    paddingVertical: 14,
-    paddingHorizontal: 32,
-    borderRadius: 12,
-    marginVertical: 12,
-    borderWidth: 1,
-    overflow: "hidden",
-    alignItems: "center",
-  },
-  glassButtonText: {
-    color: "#fff",
-    fontSize: 16,
-    fontWeight: "bold",
-    textAlign: "center",
-  },
-  loginCard: {
-    width: "85%",
-    borderRadius: 24,
-    padding: 32,
-    overflow: "hidden",
-    borderWidth: 1,
-    borderColor: "rgba(255, 255, 255, 0.2)",
-  },
-  profileImg: {
-    width: 140,
-    height: 140,
-    borderRadius: 70,
-    marginBottom: 20,
-    borderWidth: 3,
-    borderColor: "rgba(46, 125, 50, 0.5)",
-  },
-  title: {
-    fontSize: 28,
-    fontWeight: "bold",
-    color: "#fff",
-    marginBottom: 8,
-    textAlign: "center",
-  },
-  subtitle: { color: "rgba(255, 255, 255, 0.7)", fontSize: 14 },
-  infoPanel: {
-    width: "90%",
     borderRadius: 20,
-    padding: 20,
-    marginVertical: 20,
-    overflow: "hidden",
-    borderWidth: 1,
-    borderColor: "rgba(255, 255, 255, 0.2)",
+    margin: 4,
   },
-  infoSection: { paddingVertical: 8 },
-  infoLabel: {
-    color: "rgba(255, 255, 255, 0.7)",
-    fontSize: 12,
-    fontWeight: "600",
-    marginBottom: 4,
-  },
-  infoValue: {
-    color: "#fff",
-    fontSize: 16,
+  traitText: {
+    fontSize: 13,
+    color: "#00695c",
     fontWeight: "600",
   },
-  infoDivider: {
-    height: 1,
-    backgroundColor: "rgba(255, 255, 255, 0.1)",
-    marginVertical: 8,
-  },
-  actionRow: {
-    gap: 12,
-    marginBottom: 20,
-    width: "90%",
-  },
-  herdCard: {
-    width: "90%",
-    borderRadius: 20,
-    padding: 20,
-    marginVertical: 12,
-    overflow: "hidden",
-    borderWidth: 1,
-    borderColor: "rgba(255, 255, 255, 0.2)",
-  },
-  herdTitle: {
-    color: "#fff",
-    fontSize: 20,
-    fontWeight: "bold",
-    marginBottom: 12,
-    textAlign: "center",
-  },
-  traitRow: {
+  membersRow: {
     flexDirection: "row",
     flexWrap: "wrap",
     justifyContent: "center",
-    marginBottom: 16,
-    gap: 8,
   },
-  traitTag: {
-    backgroundColor: "rgba(46, 125, 50, 0.3)",
-    paddingHorizontal: 12,
-    paddingVertical: 6,
-    borderRadius: 8,
-    borderWidth: 1,
-    borderColor: "rgba(46, 125, 50, 0.5)",
-  },
-  traitTagText: {
-    color: "#fff",
-    fontSize: 12,
-    fontWeight: "600",
-  },
-  memberGrid: {
-    flexDirection: "row",
-    flexWrap: "wrap",
-    justifyContent: "center",
-    gap: 12,
-  },
-  memberTile: {
+  memberCard: {
     alignItems: "center",
-    width: 80,
+    margin: 8,
+    width: 90,
   },
   memberImg: {
-    width: 70,
-    height: 70,
-    borderRadius: 12,
-    marginBottom: 8,
-    borderWidth: 2,
-    borderColor: "rgba(46, 125, 50, 0.4)",
+    width: 60,
+    height: 60,
+    borderRadius: 30,
+    marginBottom: 5,
   },
-  memberNameSmall: {
-    color: "#fff",
-    fontSize: 11,
+  memberName: {
+    fontSize: 13,
     fontWeight: "600",
     textAlign: "center",
+    color: "#2e7d32",
   },
-  statsGrid: {
-    flexDirection: "row",
-    flexWrap: "wrap",
-    justifyContent: "center",
-    gap: 12,
-    marginBottom: 20,
-    width: "100%",
+  memberInfo: {
+    fontSize: 11,
+    color: "#555",
+    textAlign: "center",
   },
-  statTile: {
-    width: "42%",
-    borderRadius: 16,
-    padding: 16,
-    alignItems: "center",
-    overflow: "hidden",
-    borderWidth: 1,
-    borderColor: "rgba(255, 255, 255, 0.2)",
+  profileImg: {
+    width: 180,
+    height: 180,
+    borderRadius: 90,
+    marginBottom: 10,
+    borderWidth: 4,
+    borderColor: "#2e7d32",
   },
-  statEmoji: { fontSize: 28, marginBottom: 8 },
-  statValue: {
-    color: "#fff",
-    fontSize: 24,
+  profileName: {
+    fontSize: 26,
     fontWeight: "bold",
-    marginBottom: 4,
+    color: "#1b5e20",
   },
-  statLabel: {
-    color: "rgba(255, 255, 255, 0.7)",
-    fontSize: 12,
-    fontWeight: "600",
-  },
-  regionStats: {
-    width: "90%",
-    borderRadius: 20,
-    padding: 20,
-    overflow: "hidden",
-    borderWidth: 1,
-    borderColor: "rgba(255, 255, 255, 0.2)",
-  },
-  regionStatsTitle: {
-    color: "#fff",
+  profileAge: {
     fontSize: 16,
-    fontWeight: "bold",
-    marginBottom: 12,
+    color: "#555",
+    marginBottom: 15,
   },
-  regionRow: {
+  infoBox: {
+    backgroundColor: "#fff",
+    width: "90%",
+    borderRadius: 12,
+    padding: 12,
+    marginBottom: 20,
+    elevation: 3,
+  },
+  infoRow: {
     flexDirection: "row",
-    alignItems: "center",
-    marginBottom: 12,
-    gap: 12,
+    justifyContent: "space-between",
+    paddingVertical: 6,
+    borderBottomWidth: 1,
+    borderBottomColor: "#eee",
   },
-  regionName: {
-    color: "#fff",
-    fontSize: 12,
+  infoLabel: {
     fontWeight: "600",
-    width: 120,
+    color: "#333",
   },
-  regionBar: {
-    flex: 1,
-    height: 8,
-    backgroundColor: "rgba(255, 255, 255, 0.1)",
-    borderRadius: 4,
-    overflow: "hidden",
-  },
-  regionBarFill: {
-    height: "100%",
-    backgroundColor: "rgba(46, 125, 50, 0.6)",
-  },
-  regionCount: {
-    color: "#fff",
-    fontSize: 12,
-    fontWeight: "600",
-    width: 24,
+  infoValue: {
+    fontWeight: "500",
+    color: "#444",
     textAlign: "right",
+    flexShrink: 1,
+  },
+  actionsRow: {
+    flexDirection: "row",
+    justifyContent: "center",
+    marginBottom: 20,
+  },
+  actionBtn: {
+    paddingVertical: 10,
+    paddingHorizontal: 18,
+    borderRadius: 8,
+    marginHorizontal: 6,
+  },
+  actionBtnText: {
+    color: "#fff",
+    fontWeight: "600",
   },
   advertCard: {
-    width: "90%",
-    borderRadius: 16,
-    padding: 16,
+    backgroundColor: "#fff",
+    borderRadius: 12,
+    padding: 15,
     marginVertical: 8,
-    overflow: "hidden",
-    borderLeftWidth: 4,
-    borderWidth: 1,
-    borderColor: "rgba(255, 255, 255, 0.2)",
+    width: "95%",
+    elevation: 2,
+    borderLeftWidth: 6,
   },
-  advertHeader: {
-    flexDirection: "row",
-    alignItems: "center",
-    marginBottom: 8,
-  },
-  advertType: { fontSize: 20, marginRight: 8 },
   advertTitle: {
-    color: "#fff",
-    fontSize: 16,
     fontWeight: "bold",
-    flex: 1,
+    fontSize: 16,
+    marginBottom: 4,
   },
   advertDesc: {
-    color: "rgba(255, 255, 255, 0.8)",
-    fontSize: 13,
-    marginBottom: 12,
+    fontSize: 14,
+    color: "#444",
+    marginBottom: 6,
   },
-  advertMeta: {
-    color: "rgba(255, 255, 255, 0.5)",
-    fontSize: 11,
-    marginTop: 8,
+  advertBreeder: {
+    fontSize: 12,
+    color: "#555",
+    marginTop: 6,
   },
-  emptyState: {
-    color: "rgba(255, 255, 255, 0.5)",
-    fontSize: 16,
-    fontStyle: "italic",
-    marginTop: 20,
-  },
-  filterPanel: {
+  statCard: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    backgroundColor: "#fff",
+    padding: 10,
+    borderRadius: 8,
+    marginVertical: 4,
     width: "90%",
-    borderRadius: 20,
-    padding: 20,
-    marginVertical: 16,
-    overflow: "hidden",
-    borderWidth: 1,
-    borderColor: "rgba(255, 255, 255, 0.2)",
+  },
+  statCardFull: {
+    backgroundColor: "#fff",
+    padding: 10,
+    borderRadius: 8,
+    marginVertical: 4,
+    width: "90%",
   },
 });
