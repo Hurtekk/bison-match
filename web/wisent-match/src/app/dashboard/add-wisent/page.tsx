@@ -29,6 +29,17 @@ export default function AddWisentPage() {
     if (!formData.behavior) newErrors.push("Behavior is required");
     if (!formData.region) newErrors.push("Region is required");
 
+    const randomGene = (pair: string) => {
+  const [a, b] = pair.split("");
+  return Math.random() < 0.5 ? a + b : b + a;
+};
+
+const randomGenotype =
+  randomGene("Ff") +
+  randomGene("Aa") +
+  randomGene("Ss") +
+  randomGene("Hh");
+
     if (newErrors.length > 0) {
       setErrors(newErrors);
       return;
@@ -44,6 +55,7 @@ export default function AddWisentPage() {
       furLength: formData.furLength,
       healthCondition: formData.healthCondition,
       image: `/assets/${Math.floor(Math.random() * 30) + 1}.jpg`, // Random image
+      genotype: randomGenotype,
     });
 
     alert(`Wisent "${formData.name}" added successfully!`);

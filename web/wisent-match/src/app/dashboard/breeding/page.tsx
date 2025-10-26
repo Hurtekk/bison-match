@@ -115,7 +115,7 @@ const normalize = (g?: string) => {
 
     // sort each pair (dominant first)
     const sortGene = (g: string) =>
-      g.split("").sort((x, y) => (x === x.toUpperCase() ? -1 : 1)).join("");
+      g.split("").sort((x) => (x === x.toUpperCase() ? -1 : 1)).join("");
 
     const g = sortGene(F) + sortGene(A) + sortGene(S) + sortGene(H);
 
