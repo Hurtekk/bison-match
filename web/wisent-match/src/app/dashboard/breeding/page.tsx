@@ -24,37 +24,6 @@ export default function BreedingPage() {
   const [results, setResults] = useState<GeneticOutcome[]>([]);
   const [hasCalculated, setHasCalculated] = useState(false);
 
-  // Parse genotype string into genes
-  const parseGenotype = (genotype: string) => {
-    return {
-      F: genotype.substring(0, 2), // Fur
-      A: genotype.substring(2, 4), // Aggression
-      S: genotype.substring(4, 6), // Sociability
-      H: genotype.substring(6, 8), // Health
-    };
-  };
-
-  // Get all allele combinations for a gene
-  const getCombinations = (gene1: string, gene2: string): string[] => {
-    const alleles = [
-      gene1[0] + gene2[0],
-      gene1[0] + gene2[1],
-      gene1[1] + gene2[0],
-      gene1[1] + gene2[1],
-    ].map(combo => {
-      // sort: dominant allele first
-      return combo
-        .split("")
-        .sort((a, b) => {
-          if (a === b) return 0;
-          return a === a.toUpperCase() ? -1 : 1;
-        })
-        .join("");
-    });
-
-    return Array.from(new Set(alleles));
-  };
-
   // Predict traits based on genotype
   const predictTraits = (F: string, A: string, S: string, H: string) => {
     const furLength = F.includes("F") ? "thick" : "normal";

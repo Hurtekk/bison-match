@@ -44,7 +44,7 @@ const generatePreview = () => {
   const available = bisons.filter((b) => !b.quarantine && !b.flock);
 
   // Filter by selected traits
-  let candidates = available.filter((bison) => {
+  const candidates = available.filter((bison) => {
     if (
       traits.regions.length > 0 &&
       !traits.regions.includes(bison.region)
