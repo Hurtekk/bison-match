@@ -70,7 +70,7 @@ export const initialBisons: Bison[] = [
     region: "Smardzewice",
     furLength: "normal",
     healthCondition: "healthy",
-    genotype: "ffaaSsHh", // normal fur, passive, somewhat social, healthy
+    genotype: "ffaaSsHh",
     image: "/assets/1.jpg",
   },
   {
@@ -82,7 +82,7 @@ export const initialBisons: Bison[] = [
     region: "Borki",
     furLength: "thick",
     healthCondition: "healthy",
-    genotype: "FfaaSsHH", // thick fur, passive, social tendency, excellent health
+    genotype: "FfaaSsHH",
     image: "/assets/2.jpg",
   },
   {
@@ -94,7 +94,7 @@ export const initialBisons: Bison[] = [
     region: "Knyszyn",
     furLength: "normal",
     healthCondition: "healthy",
-    genotype: "ffAaSsHh", // normal fur, territorial, alert, healthy
+    genotype: "ffAaSsHh",
     image: "/assets/3.jpg",
   },
   {
@@ -106,7 +106,7 @@ export const initialBisons: Bison[] = [
     region: "Borki",
     furLength: "thick",
     healthCondition: "healthy",
-    genotype: "FFaaSsHh", // thick fur, passive, social, healthy
+    genotype: "FFaaSsHh",
     image: "/assets/4.jpg",
   },
   {
@@ -118,7 +118,7 @@ export const initialBisons: Bison[] = [
     region: "Drawno",
     furLength: "thick",
     healthCondition: "healthy",
-    genotype: "FfAaSsHH", // thick fur, aggressive, social, excellent health
+    genotype: "FfAaSsHH",
     image: "/assets/5.jpg",
   },
   {
@@ -130,7 +130,7 @@ export const initialBisons: Bison[] = [
     region: "Borecka Puszcza",
     furLength: "normal",
     healthCondition: "healthy",
-    genotype: "ffAaSsHh", // normal fur, aggressive, alert, healthy
+    genotype: "ffAaSsHh",
     image: "/assets/6.jpg",
   },
   {
@@ -142,7 +142,7 @@ export const initialBisons: Bison[] = [
     region: "Bieszczady",
     furLength: "thick",
     healthCondition: "healthy",
-    genotype: "FFaaSsHh", // thick fur, passive, social, healthy
+    genotype: "FFaaSsHh",
     image: "/assets/7.jpg",
   },
   {
@@ -154,7 +154,7 @@ export const initialBisons: Bison[] = [
     region: "Wigry",
     furLength: "thick",
     healthCondition: "healthy",
-    genotype: "FfaaSsHH", // thick fur, passive, social, excellent health
+    genotype: "FfaaSsHH",
     image: "/assets/8.jpg",
   },
   {
@@ -166,7 +166,7 @@ export const initialBisons: Bison[] = [
     region: "Muczne",
     furLength: "normal",
     healthCondition: "healthy",
-    genotype: "ffAaSsHh", // normal fur, territorial, alert, healthy
+    genotype: "ffAaSsHh",
     image: "/assets/9.jpg",
   },
   {
@@ -178,7 +178,7 @@ export const initialBisons: Bison[] = [
     region: "Białowieża",
     furLength: "normal",
     healthCondition: "healthy",
-    genotype: "ffAASsHh", // normal fur, very aggressive, alert, healthy
+    genotype: "ffAASsHh",
     image: "/assets/10.jpg",
   },
   {
@@ -190,7 +190,7 @@ export const initialBisons: Bison[] = [
     region: "Bieszczady",
     furLength: "thick",
     healthCondition: "healthy",
-    genotype: "FFaaSsHH", // thick fur, passive, social, excellent health
+    genotype: "FFaaSsHH",
     image: "/assets/11.jpg",
   },
   {
@@ -202,7 +202,7 @@ export const initialBisons: Bison[] = [
     region: "Białowieża",
     furLength: "thick",
     healthCondition: "healthy",
-    genotype: "FfAaSsHh", // thick fur, territorial, alert, healthy
+    genotype: "FfAaSsHh",
     image: "/assets/12.jpg",
   },
   {
@@ -214,7 +214,7 @@ export const initialBisons: Bison[] = [
     region: "Pszczyna",
     furLength: "normal",
     healthCondition: "healthy",
-    genotype: "ffaaSsHh", // normal fur, passive, social, healthy
+    genotype: "ffaaSsHh",
     image: "/assets/13.jpg",
   },
   {
@@ -226,7 +226,7 @@ export const initialBisons: Bison[] = [
     region: "Muczne",
     furLength: "thick",
     healthCondition: "healthy",
-    genotype: "FFAaSsHh", // thick fur, aggressive, alert, healthy
+    genotype: "FFAaSsHh",
     image: "/assets/18.jpg",
   },
   {
@@ -238,7 +238,7 @@ export const initialBisons: Bison[] = [
     region: "Bałtów",
     furLength: "normal",
     healthCondition: "healthy",
-    genotype: "ffAaSsHh", // normal fur, territorial, alert, healthy
+    genotype: "ffAaSsHh",
     image: "/assets/15.jpg",
   },
   {
@@ -250,7 +250,7 @@ export const initialBisons: Bison[] = [
     region: "Białowieża",
     furLength: "normal",
     healthCondition: "healthy",
-    genotype: "ffaaSsHH", // normal fur, calm, social, excellent health
+    genotype: "ffaaSsHH",
     image: "/assets/16.jpg",
   },
   {
@@ -262,7 +262,7 @@ export const initialBisons: Bison[] = [
     region: "Bieszczady",
     furLength: "normal",
     healthCondition: "healthy",
-    genotype: "ffaaSsHh", // normal fur, calm, alert, healthy
+    genotype: "ffaaSsHh",
     image: "/assets/17.jpg",
   },
   {
@@ -274,7 +274,7 @@ export const initialBisons: Bison[] = [
     region: "Knyszyn",
     furLength: "normal",
     healthCondition: "healthy",
-    genotype: "ffaaSSHH", // normal fur, calm, very social/energetic, excellent health
+    genotype: "ffaaSSHH",
     image: "/assets/14.jpg",
   },
   {
@@ -286,7 +286,7 @@ export const initialBisons: Bison[] = [
     region: "Wigry",
     furLength: "normal",
     healthCondition: "healthy",
-    genotype: "ffaaSsHh", // normal fur, calm, social, healthy
+    genotype: "ffaaSsHh",
     image: "/assets/19.jpg",
   },
   {
@@ -297,8 +297,8 @@ export const initialBisons: Bison[] = [
     behavior: "curious",
     region: "Drawno",
     furLength: "thick",
-    healthCondition: "healthy",
-    genotype: "FfaaSsHh", // thick fur, calm, curious, healthy
+    healthCondition: "injured",
+    genotype: "FfaaSsHh",
     image: "/assets/20.jpg",
   },
   {
@@ -310,7 +310,7 @@ export const initialBisons: Bison[] = [
     region: "Borecka Puszcza",
     furLength: "thick",
     healthCondition: "healthy",
-    genotype: "FFaassHh", // thick fur, calm, loner/lazy, healthy
+    genotype: "FFaassHh",
     image: "/assets/21.jpg",
   },
   {
@@ -322,7 +322,7 @@ export const initialBisons: Bison[] = [
     region: "Białowieża",
     furLength: "thick",
     healthCondition: "healthy",
-    genotype: "FfAaSsHH", // thick fur, dominant, alert, excellent health
+    genotype: "FfAaSsHH",
     image: "/assets/22.jpg",
   },
   {
@@ -333,8 +333,8 @@ export const initialBisons: Bison[] = [
     behavior: "calm",
     region: "Niepołomice",
     furLength: "normal",
-    healthCondition: "healthy",
-    genotype: "ffaaSsHh", // normal fur, calm, social, healthy
+    healthCondition: "injured",
+    genotype: "ffaaSsHh",
     image: "/assets/23.jpg",
   },
   {
@@ -346,7 +346,7 @@ export const initialBisons: Bison[] = [
     region: "Wigry",
     furLength: "thick",
     healthCondition: "healthy",
-    genotype: "FfaaSsHh", // thick fur, calm, cautious/alert, healthy
+    genotype: "FfaaSsHh",
     image: "/assets/24.jpg",
   },
   {
@@ -357,20 +357,20 @@ export const initialBisons: Bison[] = [
     behavior: "energetic",
     region: "Knyszyn",
     furLength: "thick",
-    healthCondition: "healthy",
-    genotype: "FFaaSSHH", // thick fur, calm, very social/energetic, excellent health
+    healthCondition: "injured",
+    genotype: "FFaaSSHH",
     image: "/assets/28.jpg",
   },
   {
     id: "26",
-    name: "Poloniusz",
+    name: "Poloniusz II",
     age: 14,
     sex: "male",
     behavior: "territorial",
     region: "Borecka Puszcza",
     furLength: "normal",
     healthCondition: "healthy",
-    genotype: "ffAaSsHh", // normal fur, territorial, alert, healthy
+    genotype: "ffAaSsHh",
     image: "/assets/26.jpg",
   },
   {
@@ -382,7 +382,7 @@ export const initialBisons: Bison[] = [
     region: "Muczne",
     furLength: "thick",
     healthCondition: "healthy",
-    genotype: "FfaaSsHH", // thick fur, calm, watchful/alert, excellent health
+    genotype: "FfaaSsHH",
     image: "/assets/27.jpg",
   },
   {
@@ -394,7 +394,7 @@ export const initialBisons: Bison[] = [
     region: "Drawno",
     furLength: "normal",
     healthCondition: "healthy",
-    genotype: "ffaaSSHh", // normal fur, calm, very social, healthy
+    genotype: "ffaaSSHh",
     image: "/assets/25.jpg",
   },
   {
@@ -406,7 +406,7 @@ export const initialBisons: Bison[] = [
     region: "Białowieża",
     furLength: "normal",
     healthCondition: "healthy",
-    genotype: "ffaaSSHH", // normal fur, calm, very social/playful, excellent health
+    genotype: "ffaaSSHH",
     image: "/assets/29.jpg",
   },
   {
@@ -417,8 +417,8 @@ export const initialBisons: Bison[] = [
     behavior: "loner",
     region: "Wigry",
     furLength: "thick",
-    healthCondition: "healthy",
-    genotype: "FfaassHh", // thick fur, calm, loner, healthy
+    healthCondition: "injured",
+    genotype: "FfaassHh",
     image: "/assets/30.jpg",
   },
 ];

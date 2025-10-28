@@ -204,7 +204,7 @@ export default function DashboardPage() {
                 {filteredBisons.map((bison) => (
                   <Link
                     key={bison.id}
-                    href={`#`}
+                    href={`/dashboard/wisents/${bison.id}`}
                     className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden hover:shadow-md transition-shadow group"
                   >
                     <div className="relative h-48 bg-gray-100">
@@ -235,15 +235,15 @@ export default function DashboardPage() {
                             </span>
                           )}
                           <span
-                            className={`w-8 h-8 rounded-full flex items-center justify-center ${
-                              bison.healthCondition === "healthy"
-                                ? "bg-green-100"
-                                : "bg-red-100"
-                            }`}
-                            title={bison.healthCondition}
-                          >
-                            {bison.healthCondition === "healthy" ? "✓" : "!"}
-                          </span>
+  className={`px-2 py-1 rounded-full text-xs font-semibold ${
+    bison.healthCondition === "healthy"
+      ? "bg-green-100 text-green-700"
+      : "bg-yellow-100 text-yellow-800"
+  }`}
+  title={bison.healthCondition}
+>
+  {bison.healthCondition === "healthy" ? "🩺 Healthy" : "⚠️ Injured"}
+</span>
                         </div>
                       </div>
 

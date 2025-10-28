@@ -15,10 +15,10 @@ export default function DashboardLayout({
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const navigation = [
-    { name: "Bison List", href: "/dashboard/wisents", icon: "🦬" },
+    { name: "Wisent List", href: "/dashboard/wisents", icon: "🦬" },
     { name: "Herds", href: "/dashboard/herds", icon: "🐂" },
     { name: "Create Herd", href: "/dashboard/create-herd", icon: "👥" },
-    { name: "Add Bison", href: "/dashboard/add-wisent", icon: "➕" },
+    { name: "Add Wisent", href: "/dashboard/add-wisent", icon: "➕" },
     { name: "Statistics", href: "/dashboard/stats", icon: "📊" },
     { name: "Marketplace", href: "/dashboard/marketplace", icon: "📢" },
     { name: "Breeding", href: "/dashboard/breeding", icon: "❤️" },
