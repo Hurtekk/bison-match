@@ -1,4 +1,3 @@
-// app/dashboard/marketplace/page.tsx
 "use client";
 
 import { useState } from "react";
@@ -23,22 +22,18 @@ export default function MarketplacePage() {
         <div className="flex items-center justify-between mb-8">
           <div>
             <h1 className="text-3xl font-bold text-gray-900 mb-2">
-              📢 Giełda Hodowców
+              📢 Breeders Marketplace
             </h1>
             <p className="text-gray-600">
               {filteredAdverts.length}{" "}
-              {filteredAdverts.length === 1
-                ? "ogłoszenie"
-                : filteredAdverts.length < 5
-                ? "ogłoszenia"
-                : "ogłoszeń"}
+              {filteredAdverts.length === 1 ? "listing" : "listings"}
             </p>
           </div>
           <Link
             href="/dashboard/marketplace/create"
             className="px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors font-semibold"
           >
-            ➕ Dodaj Ogłoszenie
+            ➕ Create Listing
           </Link>
         </div>
 
@@ -52,7 +47,7 @@ export default function MarketplacePage() {
                 : "text-gray-700 hover:bg-gray-100"
             }`}
           >
-            Wszystkie ({adverts.length})
+            All ({adverts.length})
           </button>
           <button
             onClick={() => setFilter("offer")}
@@ -62,7 +57,7 @@ export default function MarketplacePage() {
                 : "text-gray-700 hover:bg-gray-100"
             }`}
           >
-            💰 Oferty ({offerCount})
+            💰 Offers ({offerCount})
           </button>
           <button
             onClick={() => setFilter("request")}
@@ -72,7 +67,7 @@ export default function MarketplacePage() {
                 : "text-gray-700 hover:bg-gray-100"
             }`}
           >
-            🔍 Zapytania ({requestCount})
+            🔍 Requests ({requestCount})
           </button>
         </div>
 
@@ -81,16 +76,16 @@ export default function MarketplacePage() {
           <div className="bg-white rounded-xl border border-gray-200 p-12 text-center">
             <span className="text-6xl mb-4 block">📢</span>
             <h3 className="text-xl font-semibold text-gray-900 mb-2">
-              Brak ogłoszeń
+              No listings
             </h3>
             <p className="text-gray-600 mb-6">
-              Dodaj pierwsze ogłoszenie na giełdzie
+              Add the first listing to the marketplace
             </p>
             <Link
               href="/dashboard/marketplace/create"
               className="inline-block px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors font-semibold"
             >
-              Dodaj Ogłoszenie
+              Create Listing
             </Link>
           </div>
         ) : (
@@ -121,7 +116,7 @@ export default function MarketplacePage() {
                               : "bg-blue-100 text-blue-700"
                           }`}
                         >
-                          {advert.type === "offer" ? "Oferta" : "Zapytanie"}
+                          {advert.type === "offer" ? "Offer" : "Request"}
                         </span>
                       </div>
                       <p className="text-gray-700 mb-4">
@@ -148,9 +143,7 @@ export default function MarketplacePage() {
                         <span>•</span>
                         <span>
                           📅{" "}
-                          {new Date(advert.postedAt).toLocaleDateString(
-                            "pl-PL"
-                          )}
+                          {new Date(advert.postedAt).toLocaleDateString("en-GB")}
                         </span>
                       </div>
                     </div>
@@ -159,7 +152,7 @@ export default function MarketplacePage() {
                       onClick={() => {
                         if (
                           confirm(
-                            `Czy na pewno chcesz usunąć ogłoszenie "${advert.title}"?`
+                            `Are you sure you want to delete the listing "${advert.title}"?`
                           )
                         ) {
                           deleteAdvert(advert.id);
@@ -167,7 +160,7 @@ export default function MarketplacePage() {
                       }}
                       className="ml-4 px-4 py-2 bg-red-50 text-red-600 rounded-lg hover:bg-red-100 transition-colors font-medium text-sm"
                     >
-                      Usuń
+                      Delete
                     </button>
                   </div>
                 </div>
