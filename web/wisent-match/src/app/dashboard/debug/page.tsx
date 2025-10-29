@@ -47,7 +47,7 @@ export default function DebugPage() {
 
         <div className="pt-4 border-t border-gray-200">
           <Link
-            href="/dashboard"
+            href="/dashboard/wisents"
             className="inline-block text-sm text-green-700 hover:underline"
           >
             ← Back to dashboard
