@@ -22,7 +22,7 @@ export default function BisonProfilePage() {
           The requested bison could not be found in the database.
         </p>
         <button
-          onClick={() => router.back()}
+          onClick={() => router.replace("/dashboard/wisents")}
           className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
         >
           ← Go Back
@@ -48,7 +48,7 @@ export default function BisonProfilePage() {
           <div className="flex items-center justify-between mb-4">
             <h1 className="text-3xl font-bold text-gray-900">{bison.name}</h1>
             <Link
-              href="/dashboard"
+              href="/dashboard/wisents"
               className="text-sm text-green-700 hover:underline"
             >
               ← Back to list
