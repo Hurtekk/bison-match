@@ -108,16 +108,6 @@ export default function StatsPage() {
             </div>
             <div className="text-sm text-gray-600 font-medium">Injured</div>
           </div>
-
-          <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-            <div className="text-4xl mb-3">🚫</div>
-            <div className="text-3xl font-bold text-orange-600 mb-1">
-              {quarantinedCount}
-            </div>
-            <div className="text-sm text-gray-600 font-medium">
-              Quarantined
-            </div>
-          </div>
         </div>
 
         {/* Secondary Stats */}
